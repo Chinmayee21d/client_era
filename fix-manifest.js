@@ -11,6 +11,13 @@ console.log(`Standalone Path: ${standalonePath}`);
 
 if (!fs.existsSync(standalonePath)) {
   console.log('Error: Standalone folder not found! Next.js build might have failed or output: "standalone" is not set.');
+  console.log('Listing contents of .next directory for diagnostics:');
+  try {
+    const nextContents = fs.readdirSync(rootNext);
+    console.log(nextContents.join(', '));
+  } catch (err) {
+    console.log(`Failed to list .next contents: ${err.message}`);
+  }
   process.exit(0); // Exit gracefully to allow OpenNext to show its own error if it wants
 }
 
