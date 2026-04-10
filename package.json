@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_PRIVATE_WORKER_THREADS=false next build && node fix-manifest.js && opennextjs-cloudflare build --skipBuild",
+    "build": "NEXT_PRIVATE_WORKER_THREADS=false next build --webpack && node fix-manifest.js && opennextjs-cloudflare build --skipBuild",
     "deploy": "wrangler deploy",
     "versions:upload": "wrangler versions upload",
     "start": "next start",
