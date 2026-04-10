@@ -1,9 +1,7 @@
-import type { OpenNextConfig } from "@opennextjs/cloudflare";
+import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 
-const config: OpenNextConfig = {
-  default: {
-    placement: "global",
-  },
-};
-
-export default config;
+export default defineCloudflareConfig({
+  // The app doesn't require specific overrides for now, 
+  // but defineCloudflareConfig ensures the middleware and workers 
+  // are configured correctly for the Cloudflare Edge.
+});
