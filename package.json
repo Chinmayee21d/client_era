@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:next": "next build",
-    "build": "npx opennextjs-cloudflare build --build-command \"npm run build:next\"",
-    "deploy": "npx opennextjs-cloudflare deploy",
+    "build": "next build && opennextjs-cloudflare build --skipBuild",
+    "deploy": "wrangler deploy",
+    "versions:upload": "wrangler versions upload",
     "start": "next start",
     "lint": "eslint"
   },
