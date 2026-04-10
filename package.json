@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "npx opennextjs-cloudflare build",
+    "deploy": "npx opennextjs-cloudflare deploy",
     "start": "next start",
-    "lint": "eslint",
-    "deploy": "npx wrangler pages deploy .vercel/output/static"
+    "lint": "eslint"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
+    "@opennextjs/cloudflare": "^1.19.0",
     "@tailwindcss/postcss": "^4",
     "@types/marked": "^6.0.0",
     "@types/node": "^20",
@@ -31,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.81.1"
   }
 }
