@@ -30,7 +30,8 @@ export default function AnimatedIcon({
           repeat: Infinity,
           ease: "easeInOut"
         }
-      }
+      },
+      whileHover: undefined
     },
     pulse: {
       initial: { scale: 1 },
@@ -41,7 +42,8 @@ export default function AnimatedIcon({
           repeat: Infinity,
           ease: "easeInOut"
         }
-      }
+      },
+      whileHover: undefined
     },
     spin: {
       initial: { rotate: 0 },
@@ -52,10 +54,12 @@ export default function AnimatedIcon({
           repeat: Infinity,
           ease: "linear"
         }
-      }
+      },
+      whileHover: undefined
     },
     scale: {
       initial: { scale: 1 },
+      animate: undefined,
       whileHover: { 
         scale: 1.15,
         transition: { 
@@ -66,7 +70,8 @@ export default function AnimatedIcon({
     },
     none: {
       initial: {},
-      animate: {}
+      animate: undefined,
+      whileHover: undefined
     }
   }
 
