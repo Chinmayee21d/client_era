@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function CTABanner() {
   return (
     <section className="ce-cta-outer" id="cta">
@@ -15,13 +17,13 @@ export default function CTABanner() {
           </p>
         </div>
         <div className="ce-cta-right">
-          <button 
-            onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+          <Link 
+            href="/enquiry"
             className="ce-cta-btn ce-cta-btn-primary"
-            style={{ cursor: 'pointer', border: 'none' }}
+            style={{ textDecoration: 'none' }}
           >
             Book a Live Demo →
-          </button>
+          </Link>
           <a href="#solution" className="ce-cta-btn ce-cta-btn-ghost">Explore the Platform</a>
           <p className="ce-cta-micro">No credit card required · SOC2 compliant</p>
         </div>

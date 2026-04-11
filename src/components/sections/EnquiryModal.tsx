@@ -26,6 +26,8 @@ export default function EnquiryModal() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      // Dispatch close event for enquiry page
+      window.dispatchEvent(new Event('enquiry-modal-closed'));
     }
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);

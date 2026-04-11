@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function SM_CTA() {
   return (
     <section className="ce-cta-outer" id="sm-cta">
@@ -15,7 +17,7 @@ export default function SM_CTA() {
           </p>
         </div>
         <div className="ce-cta-right">
-          <a href="#" className="ce-cta-btn ce-cta-btn-primary">Book a Live Demo →</a>
+          <Link href="/enquiry" className="ce-cta-btn ce-cta-btn-primary" style={{ textDecoration: 'none' }}>Book a Live Demo →</Link>
           <a href="#" className="ce-cta-btn ce-cta-btn-ghost">Explore Pricing</a>
           <p className="ce-cta-micro">No commitment · 30-min session · SOC2 compliant</p>
         </div>

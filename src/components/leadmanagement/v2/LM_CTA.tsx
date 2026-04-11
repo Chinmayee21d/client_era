@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { ShieldCheck } from 'lucide-react'
 
 export default function LM_CTA() {
@@ -18,7 +19,7 @@ export default function LM_CTA() {
         </div>
         <div className="ce-cta-right">
           <a href="#" className="ce-cta-btn ce-cta-btn-primary">Request Early Access &rarr;</a>
-          <a href="#" className="ce-cta-btn ce-cta-btn-ghost">Book a Demo</a>
+          <Link href="/enquiry" className="ce-cta-btn ce-cta-btn-ghost" style={{ textDecoration: 'none' }}>Book a Demo</Link>
           <p className="ce-cta-micro">
             <ShieldCheck size={14} style={{ color: '#18B87A', verticalAlign: 'text-bottom' }} strokeWidth={2} />
             {" "}SOC2, ISO 27001, & GDPR Compliant

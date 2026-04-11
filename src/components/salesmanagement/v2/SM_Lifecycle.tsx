@@ -95,9 +95,10 @@ export default function SM_Lifecycle() {
         }
         .sm-activity-item {
           display: flex; align-items: center; gap: 10px;
-          padding: 10px 14px; border-radius: 10px;
+          padding: 12px 14px; border-radius: 10px;
           font-size: 13.5px; color: var(--text2);
           transition: all .2s;
+          margin-bottom: 8px;
         }
         .sm-activity-item:hover {
           background: rgba(255,255,255,0.03);
@@ -161,7 +162,7 @@ export default function SM_Lifecycle() {
 
         <div className="reveal sm-lifecycle-grid">
           {/* Loop tabs */}
-          <div className="sm-loop-tabs-container">
+          <div className="sm-loop-tabs-container" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {LOOPS.map(loop => (
               <div key={loop.id}>
                 <div
@@ -213,7 +214,7 @@ export default function SM_Lifecycle() {
                           </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                           {current.activities.map((act, i) => (
                             <div key={act} className="sm-activity-item">
                               <div className="sm-act-dot" style={{ background: current.color }} />
@@ -257,7 +258,7 @@ export default function SM_Lifecycle() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                   {current.activities.map((act, i) => (
                     <motion.div
                       key={act}

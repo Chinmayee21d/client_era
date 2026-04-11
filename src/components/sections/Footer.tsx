@@ -4,7 +4,7 @@ const COLS = [
   {
     heading: 'Platform',
     links: ['Sales Ops', 'Management', 'Customer Support', 'Field Sales', 'Desk Sales', 'Operations', 'Distributor Portal'],
-    paths: ['/sales-ops', '/sales-management', '/customer-support', '#', '#', '#', '#']
+    paths: ['/order-to-cash', '/sales-and-engagement', '/customer-excellence', '#', '#', '#', '#']
   },
   {
     heading: 'Company',

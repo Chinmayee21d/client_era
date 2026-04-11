@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function Hero() {
   return (
     <section className="ce-hero">
@@ -49,13 +51,13 @@ export default function Hero() {
           </p>
 
           <div className="ce-hero-ctas">
-            <button 
-              onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+            <Link 
+              href="/enquiry"
               className="btn-hero-gold"
-              style={{ cursor: 'pointer', border: 'none' }}
+              style={{ textDecoration: 'none' }}
             >
               Book a Demo →
-            </button>
+            </Link>
             <a href="#solution" className="btn-hero-outline">▶ See how it works</a>
           </div>
         </div>

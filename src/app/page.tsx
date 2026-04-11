@@ -16,7 +16,6 @@ import Compliance     from '@/components/sections/Compliance';
 import Pricing        from '@/components/sections/Pricing';
 import CTA            from '@/components/sections/CTA';
 import Footer         from '@/components/sections/Footer';
-import EnquiryModal   from '@/components/sections/EnquiryModal';
 
 export default function Home() {
   /* scroll-reveal observer */
@@ -57,7 +56,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-      <EnquiryModal />
     </>
   );
 }

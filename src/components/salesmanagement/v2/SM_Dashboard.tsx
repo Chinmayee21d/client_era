@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /* ─── Sidebar nav items (no emojis) ─── */
@@ -865,10 +866,10 @@ export default function SM_Dashboard() {
                       exit={{ opacity: 0, scale: 0.9, y: 20 }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <button className="db-book-demo-golden-plus">
+                      <Link href="/enquiry" className="db-book-demo-golden-plus" style={{ textDecoration: 'none' }}>
                         <span className="db-book-demo-text-plus">Explore Strategy Demo</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
-                      </button>
+                      </Link>
                       <p className="db-book-demo-subtext">Click anywhere to return to dashboard</p>
                     </motion.div>
                   </motion.div>

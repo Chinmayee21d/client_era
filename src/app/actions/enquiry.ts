@@ -30,6 +30,14 @@ export async function initiateEnquiry(data: EnquiryData) {
   }
 
   try {
+    // Check if OTP_SECRET is configured
+    try {
+      getOTPSecret();
+    } catch (err) {
+      console.error('[initiateEnquiry] OTP_SECRET not configured');
+      return { ok: false, error: 'Server configuration error. Please contact support.' };
+    }
+
     // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     
@@ -64,11 +72,16 @@ export async function initiateEnquiry(data: EnquiryData) {
     `;
 
     // Send OTP email
-    await sendMail({
+    const mailResult = await sendMail({
       to: data.email,
       subject: `${otp} is your ClientEra verification code`,
       html: otpEmailHtml,
     });
+
+    if (!mailResult.ok) {
+      console.error('[initiateEnquiry] Mail send failed:', mailResult.error);
+      return { ok: false, error: mailResult.error || 'Failed to send verification code. Please try again.' };
+    }
 
     return { ok: true, pendingToken: token };
   } catch (error: any) {

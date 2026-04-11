@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 
 export default function CS_CTA() {
     const cardRef = useRef<HTMLDivElement>(null)
@@ -164,13 +165,13 @@ export default function CS_CTA() {
                         </p>
                         <div className="cs-cta-pills">
                             <a href="/lead-management" className="cs-cta-pill">← Lead Management</a>
-                            <a href="/sales-ops" className="cs-cta-pill">Sales Operations →</a>
-                            <a href="/sales-management" className="cs-cta-pill">Sales Management →</a>
+                            <a href="/order-to-cash" className="cs-cta-pill">Order to Cash →</a>
+                            <a href="/sales-and-engagement" className="cs-cta-pill">Sales and Engagement →</a>
                         </div>
                     </div>
 
                     <div className="cs-cta-right">
-                        <a href="#pricing" className="cs-cta-btn cs-cta-btn-primary">Book a demo</a>
+                        <Link href="/enquiry" className="cs-cta-btn cs-cta-btn-primary" style={{ textDecoration: 'none' }}>Book a demo</Link>
                         <a href="#features" className="cs-cta-btn cs-cta-btn-ghost">Explore features</a>
                         <p className="cs-cta-micro">No setup fees · Cancel anytime</p>
                     </div>

@@ -12,19 +12,19 @@ const SOLUTIONS = [
     color: '#3470F0'
   },
   { 
-    href: '/sales-ops', 
+    href: '/order-to-cash', 
     label: 'Order to Cash', 
     icon: BarChart3,
     color: '#C49A3C'
   },
   { 
-    href: '/sales-management', 
+    href: '/sales-and-engagement', 
     label: 'Sales and Engagement', 
     icon: Target,
     color: '#18B87A'
   },
   { 
-    href: '/customer-support', 
+    href: '/customer-excellence', 
     label: 'Customer Excellence', 
     icon: HelpCircle,
     color: '#9C40F0'
@@ -180,13 +180,13 @@ export default function Navbar() {
         {/* Desktop CTAs */}
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }} className="nav-desktop">
           <a href="#" className="btn-ghost" style={{ padding: '8px 20px', fontSize: 13 }}>Log in</a>
-          <button 
-            onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+          <Link 
+            href="/enquiry"
             className="btn-gold" 
-            style={{ padding: '8px 22px', fontSize: 13, cursor: 'pointer', border: 'none' }}
+            style={{ padding: '8px 22px', fontSize: 13, textDecoration: 'none' }}
           >
             Book a Demo
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -262,13 +262,13 @@ export default function Navbar() {
 
         <div style={{ marginTop: 'auto', padding: '32px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <a href="#" className="btn-ghost" style={{ justifyContent: 'center', padding: '14px' }}>Log in</a>
-          <button 
-            onClick={() => { closeMenu(); window.dispatchEvent(new Event('open-enquiry-modal')); }}
+          <Link 
+            href="/enquiry"
             className="btn-gold" 
-            style={{ justifyContent: 'center', padding: '14px', cursor: 'pointer', border: 'none' }}
+            style={{ justifyContent: 'center', padding: '14px', textDecoration: 'none' }}
           >
             Book a Demo
-          </button>
+          </Link>
         </div>
       </div>
     </>

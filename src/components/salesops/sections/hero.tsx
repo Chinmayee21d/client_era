@@ -68,9 +68,9 @@ export default function S1_Hero() {
 
                 <h1 style={{
                     fontFamily: "'Fraunces', serif",
-                    fontSize: 'clamp(42px,5.5vw,76px)',
-                    lineHeight: 1.05,
-                    letterSpacing: 'clamp(-1px,-0.2vw,-2.5px)',
+                    fontSize: 'clamp(38px,4.8vw,64px)',
+                    lineHeight: 1.1,
+                    letterSpacing: 'clamp(-1px,-0.2vw,-2px)',
                     color: 'var(--text)',
                     marginBottom: 'clamp(20px,3vw,32px)',
                 }}>

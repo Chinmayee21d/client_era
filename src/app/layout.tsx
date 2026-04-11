@@ -46,7 +46,10 @@ export const metadata: Metadata = {
     images: ['/logo.png'],
   },
   icons: {
-    icon: '/logo.png',
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32' }
+    ],
     apple: '/logo.png',
   },
   robots: {
@@ -57,6 +60,7 @@ export const metadata: Metadata = {
 }
 
 import CookieConsentBanner from '@/components/compliance/CookieConsentBanner'
+import EnquiryModal from '@/components/sections/EnquiryModal'
 
 export default function RootLayout({
   children,
@@ -76,6 +80,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         {children}
         <CookieConsentBanner />
+        <EnquiryModal />
       </body>
     </html>
   )
