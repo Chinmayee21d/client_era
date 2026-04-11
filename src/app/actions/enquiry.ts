@@ -5,7 +5,14 @@ import { signData, verifyData } from '@/lib/tokens';
 
 // Defaults
 const SALES_RECIPIENT = process.env.SALES_EMAIL || 'sales@clientera.io';
-const OTP_SECRET = process.env.OTP_SECRET || 'fallback_secret_for_dev_only';
+
+function getOTPSecret(): string {
+  const secret = process.env.OTP_SECRET;
+  if (!secret) {
+    throw new Error('OTP_SECRET environment variable is required');
+  }
+  return secret;
+}
 
 export interface EnquiryData {
   name: string;
@@ -27,7 +34,7 @@ export async function initiateEnquiry(data: EnquiryData) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     
     // Sign the data + otp into a token (expires in 10 mins)
-    const token = await signData({ ...data, otp }, OTP_SECRET, 10);
+    const token = await signData({ ...data, otp }, getOTPSecret(), 10);
 
     // Build OTP Email HTML
     const otpEmailHtml = `
@@ -80,7 +87,7 @@ export async function verifyAndSubmitEnquiry(userInputOtp: string, pendingToken:
 
   try {
     // 1. Verify the token
-    const decoded = await verifyData(pendingToken, OTP_SECRET);
+    const decoded = await verifyData(pendingToken, getOTPSecret());
     if (!decoded) {
       return { ok: false, error: 'Verification link expired or invalid. Please try again.' };
     }
