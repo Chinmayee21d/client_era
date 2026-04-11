@@ -1,43 +1,76 @@
 'use client'
 
-import { ArrowRight, Target, TrendingUp, Users, Headphones } from 'lucide-react'
+import Link from 'next/link'
+import { Sparkles, ShieldCheck, Brain, Zap } from 'lucide-react'
+import LeadManagementAnimation from '@/components/services/LeadManagementAnimation'
+import OrderToCashAnimation from '@/components/services/OrderToCashAnimation'
+import SalesEngagementAnimation from '@/components/services/SalesEngagementAnimation'
+import CustomerExcellenceAnimation from '@/components/services/CustomerExcellenceAnimation'
 
 const SERVICES = [
   {
     id: 'lead-management',
     title: 'Lead Management',
-    description: 'Our expert team provides detailed lead capture, scoring, and nurturing to help you accurately build your pipeline and understand the full customer journey. Our in-depth research and analysis take into account a variety of factors, including market trends, engagement patterns, and conversion rates.',
-    icon: Target,
+    badge: 'AI-Powered',
+    badgeIcon: Sparkles,
+    tagline: 'From First Touch to Sales-Ready',
+    description: 'Intelligent lead capture, enrichment, and qualification that turns prospects into pipeline.',
+    features: [
+      'Multi-channel lead capture with auto-enrichment',
+      'AI-powered scoring and qualification',
+      'Automated nurture campaigns and handoff'
+    ],
+    animation: LeadManagementAnimation,
     color: '#3470F0',
-    gradientColor: 'rgba(52,112,240,0.12)',
     link: '/lead-management',
   },
   {
     id: 'order-to-cash',
     title: 'Order to Cash',
-    description: 'We use our extensive network and operational expertise to streamline your order-to-cash process to a wide audience. From automated invoicing and payment tracking to targeted revenue recognition, we use a variety of strategies to ensure zero leakage and showcase your efficiency in the best possible light.',
-    icon: TrendingUp,
+    badge: 'Zero Leakage',
+    badgeIcon: ShieldCheck,
+    tagline: 'From Order to Revenue Recognition',
+    description: 'End-to-end order processing, invoicing, and payment tracking with complete visibility.',
+    features: [
+      'Automated order approval workflows',
+      'Smart invoicing and payment reconciliation',
+      'Real-time revenue recognition and reporting'
+    ],
+    animation: OrderToCashAnimation,
     color: '#C49A3C',
-    gradientColor: 'rgba(196,154,60,0.12)',
-    link: '/sales-ops',
+    link: '/order-to-cash',
   },
   {
     id: 'sales-engagement',
     title: 'Sales and Engagement',
-    description: 'Our team is available to empower and support sales representatives with AI-powered insights. We understand that your time is valuable, so we work with your schedule to ensure that reps have the tools and intelligence they need while still providing the best possible sales experience.',
-    icon: Users,
+    badge: 'Intelligence Layer',
+    badgeIcon: Brain,
+    tagline: 'Empower Every Rep with AI Insights',
+    description: 'Real-time coaching, forecasting, and engagement tools that help reps close more deals.',
+    features: [
+      'AI-powered deal insights and next actions',
+      'Live pipeline visibility and forecasting',
+      'Automated activity tracking and coaching'
+    ],
+    animation: SalesEngagementAnimation,
     color: '#18B87A',
-    gradientColor: 'rgba(24,184,122,0.12)',
-    link: '/sales-management',
+    link: '/sales-and-engagement',
   },
   {
     id: 'customer-excellence',
     title: 'Customer Excellence',
-    description: 'Our expert support team delivers context-aware, AI-assisted service connected to the full commercial relationship. Our comprehensive approach and analysis take into account customer history, preferences, and engagement patterns to provide exceptional support experiences.',
-    icon: Headphones,
+    badge: 'Context-Aware',
+    badgeIcon: Zap,
+    tagline: 'Support Connected to the Full Journey',
+    description: 'AI-assisted support with complete commercial context for faster, smarter resolutions.',
+    features: [
+      'Intelligent ticket routing and prioritization',
+      'Full customer history and context at fingertips',
+      'Automated feedback loops and knowledge base'
+    ],
+    animation: CustomerExcellenceAnimation,
     color: '#8B5CF6',
-    gradientColor: 'rgba(139,92,246,0.12)',
-    link: '/customer-support',
+    link: '/customer-excellence',
   },
 ]
 
@@ -54,9 +87,9 @@ export default function Services() {
         .service-item {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 80px;
+          gap: 60px;
           align-items: center;
-          margin-bottom: 100px;
+          margin-bottom: 80px;
           position: relative;
         }
         
@@ -72,97 +105,118 @@ export default function Services() {
           direction: ltr;
         }
         
-        .service-image-wrapper {
+        .service-dashboard {
           position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .gradient-blob {
-          position: absolute;
-          width: 500px;
-          height: 500px;
-          border-radius: 50%;
-          filter: blur(80px);
-          opacity: 0.6;
-          z-index: 0;
-        }
-        
-        .service-item:nth-child(odd) .gradient-blob {
-          left: -100px;
-          background: radial-gradient(circle, var(--gradient-color) 0%, transparent 70%);
-        }
-        
-        .service-item:nth-child(even) .gradient-blob {
-          right: -100px;
-          background: radial-gradient(circle, var(--gradient-color) 0%, transparent 70%);
-        }
-        
-        .service-icon-circle {
-          width: 280px;
-          height: 280px;
-          border-radius: 50%;
-          background: var(--gradient-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          z-index: 1;
-        }
-        
-        .service-icon-inner {
-          width: 140px;
-          height: 140px;
-          border-radius: 50%;
           background: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+          overflow: hidden;
+          min-height: 400px;
+          border: 1px solid rgba(0,0,0,0.06);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-item:hover .service-dashboard {
+          transform: translateY(-8px);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.12);
         }
         
         .service-content {
           z-index: 1;
         }
         
-        .service-content h3 {
-          font-family: 'Fraunces', serif;
-          font-size: 28px;
+        .service-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 14px;
+          background: rgba(196,154,60,0.1);
+          border: 1px solid rgba(196,154,60,0.2);
+          border-radius: 20px;
+          font-size: 12px;
           font-weight: 600;
-          color: var(--ink);
+          color: var(--gold);
           margin-bottom: 16px;
-          line-height: 1.3;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
         
-        .service-content p {
+        .service-content h3 {
+          font-family: 'Fraunces', serif;
+          font-size: 32px;
+          font-weight: 600;
+          color: var(--ink);
+          margin-bottom: 8px;
+          line-height: 1.2;
+        }
+        
+        .service-tagline {
+          font-size: 16px;
+          color: var(--ink2);
+          margin-bottom: 16px;
+          font-weight: 500;
+        }
+        
+        .service-description {
           font-size: 15px;
           color: var(--ink3);
-          line-height: 1.75;
-          margin-bottom: 28px;
+          line-height: 1.7;
+          margin-bottom: 24px;
+        }
+        
+        .service-features {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 28px 0;
+        }
+        
+        .service-features li {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 14px;
+          color: var(--ink2);
+          line-height: 1.6;
+          margin-bottom: 10px;
+        }
+        
+        .service-features li:last-child {
+          margin-bottom: 0;
+        }
+        
+        .feature-check {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: rgba(34,197,94,0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 2px;
         }
         
         .learn-more-btn {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          padding: 13px 28px;
+          padding: 14px 32px;
           background: var(--gold);
           color: var(--ink);
           font-size: 15px;
           font-weight: 600;
-          border-radius: 10px;
+          border-radius: 12px;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           border: none;
           cursor: pointer;
-          box-shadow: 0 4px 12px rgba(196,154,60,0.2);
+          box-shadow: 0 4px 16px rgba(196,154,60,0.25);
         }
         
         .learn-more-btn:hover {
           background: #d4a843;
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(196,154,60,0.3);
+          box-shadow: 0 8px 24px rgba(196,154,60,0.35);
         }
         
         @media (max-width: 900px) {
@@ -173,41 +227,44 @@ export default function Services() {
           .service-item {
             grid-template-columns: 1fr;
             gap: 40px;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
           }
           
           .service-item:nth-child(even) {
             direction: ltr;
           }
           
-          .gradient-blob {
-            width: 350px;
-            height: 350px;
-            left: 50% !important;
-            right: auto !important;
-            transform: translateX(-50%);
-          }
-          
-          .service-icon-circle {
-            width: 240px;
-            height: 240px;
-          }
-          
-          .service-icon-inner {
-            width: 120px;
-            height: 120px;
+          .service-dashboard {
+            min-height: 350px;
           }
           
           .service-content {
             text-align: center;
           }
           
-          .service-content h3 {
-            font-size: 24px;
+          .service-badge {
+            margin-left: auto;
+            margin-right: auto;
           }
           
-          .service-content p {
+          .service-content h3 {
+            font-size: 26px;
+          }
+          
+          .service-tagline {
+            font-size: 15px;
+          }
+          
+          .service-description {
             font-size: 14px;
+          }
+          
+          .service-features {
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 24px;
           }
         }
       `}</style>
@@ -225,46 +282,59 @@ export default function Services() {
         {/* Header */}
         <div className="reveal" style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 80px' }}>
           <div className="eyebrow eyebrow-dark" style={{ justifyContent: 'center' }}>
-            <span className="ey-line" />Our Services
+            <span className="ey-line" />Solutions
           </div>
           <h2 className="h2 h2-ink" style={{ marginTop: 12, marginBottom: 16 }}>
-            How We Help You
+            One Platform. Every Revenue Motion.
           </h2>
           <p className="lead lead-ink" style={{ margin: '0 auto', fontSize: 16, color: 'var(--ink3)' }}>
-            Our team of experts is dedicated to helping you achieve your commercial goals.
+            From lead to cash to support—unified intelligence across your entire commercial engine.
           </p>
         </div>
 
         {/* Service Items */}
         <div className="reveal" style={{ transitionDelay: '.15s' }}>
-          {SERVICES.map((service, index) => (
-            <div
-              key={service.id}
-              className="service-item"
-              style={{
-                '--gradient-color': service.gradientColor,
-              } as React.CSSProperties}
-            >
-              {/* Image Area with Gradient Blob */}
-              <div className="service-image-wrapper">
-                <div className="gradient-blob" />
-                <div className="service-icon-circle">
-                  <div className="service-icon-inner">
-                    <service.icon size={56} strokeWidth={1.5} style={{ color: service.color }} />
+          {SERVICES.map((service) => {
+            const BadgeIcon = service.badgeIcon
+            const AnimationComponent = service.animation
+            
+            return (
+              <div key={service.id} className="service-item">
+                {/* Animated Dashboard */}
+                <div className="service-dashboard">
+                  <AnimationComponent />
+                </div>
+                
+                {/* Text Content */}
+                <div className="service-content">
+                  <div className="service-badge">
+                    <BadgeIcon size={14} strokeWidth={2.5} />
+                    {service.badge}
                   </div>
+                  <h3>{service.title}</h3>
+                  <div className="service-tagline">{service.tagline}</div>
+                  <p className="service-description">{service.description}</p>
+                  
+                  <ul className="service-features">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx}>
+                        <span className="feature-check">
+                          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                            <path d="M1 4L3.5 6.5L9 1" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <Link href={service.link} className="learn-more-btn">
+                    Learn More
+                  </Link>
                 </div>
               </div>
-              
-              {/* Text Content */}
-              <div className="service-content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <a href={service.link} className="learn-more-btn">
-                  Learn More
-                </a>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
