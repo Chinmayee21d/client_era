@@ -1,0 +1,16 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/_global-error/page": "/_global-error",
+  "/favicon.ico/route": "/favicon.ico",
+  "/manifest.webmanifest/route": "/manifest.webmanifest",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/page": "/",
+  "/customer-support/page": "/customer-support",
+  "/faq/page": "/faq",
+  "/lead-management/page": "/lead-management",
+  "/sales-ops/page": "/sales-ops",
+  "/sales-management/page": "/sales-management",
+  "/legal/page": "/legal",
+  "/legal/[slug]/page": "/legal/[slug]"
+}

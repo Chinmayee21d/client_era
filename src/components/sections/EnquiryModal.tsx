@@ -41,10 +41,7 @@ export default function EnquiryModal() {
     return () => window.removeEventListener('open-enquiry-modal', handleOpen);
   }, []);
 
-  const handleRoleSelect = (selectedRole: Role) => {
-    setRole(selectedRole);
-    setStep('form');
-  };
+
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -252,7 +249,7 @@ export default function EnquiryModal() {
                           {otpDigits.map((digit, i) => (
                             <input
                               key={i}
-                              ref={(el) => (otpRefs.current[i] = el)}
+                              ref={(el) => { otpRefs.current[i] = el; }}
                               type="text"
                               maxLength={1}
                               value={digit}

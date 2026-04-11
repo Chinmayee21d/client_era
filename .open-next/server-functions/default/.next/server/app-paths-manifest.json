@@ -1,0 +1,16 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/page": "app/page.js",
+  "/customer-support/page": "app/customer-support/page.js",
+  "/faq/page": "app/faq/page.js",
+  "/lead-management/page": "app/lead-management/page.js",
+  "/sales-ops/page": "app/sales-ops/page.js",
+  "/sales-management/page": "app/sales-management/page.js",
+  "/legal/page": "app/legal/page.js",
+  "/legal/[slug]/page": "app/legal/[slug]/page.js"
+}

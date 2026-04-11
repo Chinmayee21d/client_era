@@ -351,7 +351,7 @@ export default function CS_TicketLifecycle() {
             {features.map((f, i) => (
               <div
                 key={i}
-                ref={el => cardRefs.current[i] = el}
+                ref={el => { cardRefs.current[i] = el }}
                 className={`cstl-feat-card cstl-reveal cstl-reveal-d${i + 1}`}
               >
                 <div className="cstl-feat-icon">
