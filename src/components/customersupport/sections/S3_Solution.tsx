@@ -8,6 +8,7 @@ import {
 
 export default function CS_TicketLifecycle() {
   const sectionRef = useRef<HTMLElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -24,12 +25,33 @@ export default function CS_TicketLifecycle() {
     return () => obs.disconnect()
   }, [])
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent, card: HTMLDivElement) => {
+      const rect = card.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 100
+      const y = ((e.clientY - rect.top) / rect.height) * 100
+      card.style.setProperty('--mouse-x', `${x}%`)
+      card.style.setProperty('--mouse-y', `${y}%`)
+    }
+
+    cardRefs.current.forEach(card => {
+      if (card) {
+        const handler = (e: MouseEvent) => handleMouseMove(e, card)
+        card.addEventListener('mousemove', handler)
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--mouse-x', '50%')
+          card.style.setProperty('--mouse-y', '50%')
+        })
+      }
+    })
+  }, [])
+
   const stages = [
-    { id: 'open', label: 'Open', color: '#E0384F', bg: 'rgba(224,56,79,.12)' },
-    { id: 'in_progress', label: 'In Progress', color: '#F5A623', bg: 'rgba(245,166,35,.1)' },
-    { id: 'pending_client', label: 'Pending Client', color: 'var(--blue)', bg: 'rgba(52,112,240,.1)' },
-    { id: 'resolved', label: 'Resolved', color: 'var(--gold)', bg: 'rgba(196,154,60,.1)' },
-    { id: 'closed', label: 'Closed', color: 'var(--green)', bg: 'rgba(24,184,122,.1)' },
+    { id: 'open', label: 'Open', color: '#E0384F', bg: '#fff' },
+    { id: 'in_progress', label: 'In Progress', color: '#F5A623', bg: '#fff' },
+    { id: 'pending_client', label: 'Pending Client', color: 'var(--blue)', bg: '#fff' },
+    { id: 'resolved', label: 'Resolved', color: 'var(--gold)', bg: '#fff' },
+    { id: 'closed', label: 'Closed', color: 'var(--green)', bg: '#fff' },
   ]
 
   const features = [
@@ -81,134 +103,127 @@ export default function CS_TicketLifecycle() {
         }
         .cstl-header {
           max-width: 640px;
-          margin-bottom: 56px;
+          margin-bottom: 48px;
         }
         .cstl-flow {
-          display: flex; align-items: center;
+          display: flex; 
+          align-items: center;
+          justify-content: center;
           gap: 0;
-          padding: 60px 48px; margin-bottom: 80px;
-          background: rgba(255,255,255,.01);
-          border: 1px solid rgba(255,255,255,.05);
-          border-radius: 40px;
+          padding: 0;
+          margin-bottom: 64px;
           position: relative;
           z-index: 2;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-          mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-          -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
-        .cstl-flow::-webkit-scrollbar { display: none; }
 
         .cstl-stage-wrapper {
           display: flex;
           align-items: center;
-          flex-shrink: 0;
-          scroll-snap-align: center;
+          flex-shrink: 1;
+          min-width: 0;
         }
 
         .cstl-stage {
-          width: 240px;
-          flex-shrink: 0;
-          position: relative; z-index: 2;
+          flex: 1;
+          min-width: 0;
+          position: relative;
+          z-index: 2;
         }
 
         .cstl-stage-box {
           position: relative;
           width: 100%;
-          padding: 18px 28px;
-          border-radius: 16px;
+          padding: 18px 24px;
+          border-radius: 14px;
           font-size: 14px;
           font-weight: 700;
           display: flex;
           align-items: center;
-          gap: 12px;
-          border: 1px solid;
           justify-content: center;
           white-space: nowrap;
-          cursor: default;
-          background: var(--stage-bg);
-          box-shadow: 0 4px 12px rgba(0,0,0,.2), inset 0 0 10px rgba(255,255,255,0.05);
-          transition: all .4s cubic-bezier(.16,1,.3,1);
+          cursor: pointer;
+          background: #fff;
+          border: 2px solid;
+          border-color: var(--stage-color);
+          color: var(--stage-color);
+          box-shadow: 0 4px 16px rgba(0,0,0,.06);
+          transition: all .35s cubic-bezier(.16,1,.3,1);
+          overflow: hidden;
+        }
+        .cstl-stage-box::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--stage-color);
+          opacity: 0;
+          transition: opacity .35s cubic-bezier(.16,1,.3,1);
+          z-index: -1;
         }
         .cstl-stage-box:hover {
-          transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 12px 32px rgba(0,0,0,.4);
-          border-color: var(--stage-color) !important;
+          transform: translateY(-6px) scale(1.04);
+          box-shadow: 0 16px 40px rgba(0,0,0,.15);
+          color: #fff;
+          border-color: var(--stage-color);
         }
-        
-        .cstl-signal {
+        .cstl-stage-box:hover::before {
+          opacity: 1;
+        }
+        .cstl-stage-box::after {
+          content: '';
           position: absolute;
-          top: 50%; left: 0;
-          width: 120px; height: 1px;
-          background: linear-gradient(90deg, transparent, var(--gold), transparent);
-          box-shadow: 0 0 15px var(--gold);
-          z-index: 0;
-          animation: cstlTravel 5s linear infinite;
-          opacity: 0.3;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255,255,255,.3);
+          transform: translate(-50%, -50%);
+          transition: width .6s, height .6s;
         }
-        @keyframes cstlTravel {
-          0% { left: -20%; opacity: 0; }
-          20% { opacity: 0.3; }
-          80% { opacity: 0.3; }
-          100% { left: 120%; opacity: 0; }
+        .cstl-stage-box:hover::after {
+          width: 300px;
+          height: 300px;
         }
 
         .cstl-stage-pulse {
-          width: 8px; height: 8px; border-radius: 50%;
-          position: relative;
-        }
-        .cstl-stage-pulse::after {
-          content: ""; position: absolute; inset: -4px;
-          border-radius: 50%; background: inherit;
-          animation: cstlPulse 2s ease-out infinite; opacity: 0.4;
-        }
-        @keyframes cstlPulse {
-          to { transform: scale(3); opacity: 0; }
-        }
-
-        .cstl-path {
-          width: 80px; height: 2px;
-          position: relative; display: flex; align-items: center;
-          flex-shrink: 0;
-          margin: 0;
-        }
-        .cstl-path-inner {
-          position: absolute; left: 0; right: 0; height: 2px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.15), rgba(255,255,255,0.02));
-          border-radius: 2px;
-        }
-        .cstl-path-arrow {
-          position: absolute; right: 0;
-          color: rgba(255,255,255,0.4);
-          filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
-          animation: cstlArrowFlow 2s ease-in-out infinite;
-        }
-        @keyframes cstlArrowFlow {
-          0%, 100% { transform: translateX(0); opacity: 0.4; }
-          50% { transform: translateX(6px); opacity: 0.8; }
+          display: none;
         }
 
         .cstl-path {
           width: 60px; height: 2px;
           position: relative; display: flex; align-items: center;
           flex-shrink: 0;
+          margin: 0;
         }
         .cstl-path-inner {
           position: absolute; left: 0; right: 0; height: 2px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.15), rgba(255,255,255,0.02));
+          background: linear-gradient(90deg, transparent, rgba(196,154,60,0.3), transparent);
           border-radius: 2px;
+          overflow: hidden;
+        }
+        .cstl-path-inner::after {
+          content: "";
+          position: absolute;
+          left: -100%;
+          top: 0;
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, var(--gold), transparent);
+          animation: flowLine 3s ease-in-out infinite;
+        }
+        @keyframes flowLine {
+          0% { left: -100%; }
+          100% { left: 200%; }
         }
         .cstl-path-arrow {
-          position: absolute; right: 0;
-          color: rgba(255,255,255,0.4);
-          filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
+          position: absolute; right: -2px;
+          color: var(--gold);
+          filter: drop-shadow(0 0 4px rgba(196,154,60,0.4));
           animation: cstlArrowFlow 2s ease-in-out infinite;
         }
         @keyframes cstlArrowFlow {
-          0%, 100% { transform: translateX(0); opacity: 0.4; }
-          50% { transform: translateX(4px); opacity: 0.8; }
+          0%, 100% { transform: translateX(0); opacity: 0.5; }
+          50% { transform: translateX(4px); opacity: 1; }
         }
 
         .cstl-grid {
@@ -218,17 +233,39 @@ export default function CS_TicketLifecycle() {
         }
         .cstl-feat-card {
           background: rgba(255,255,255,.02);
-          border: 1px solid rgba(255,255,255,.06);
-          border-radius: 16px; padding: 28px;
-          transition: all .25s; cursor: default;
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 18px; 
+          padding: 32px;
+          transition: all .35s cubic-bezier(.16,1,.3,1);
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .cstl-feat-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(196,154,60,.08) 0%, transparent 50%);
+          opacity: 0;
+          transition: opacity .35s;
         }
         .cstl-feat-card:hover {
-          border-color: var(--gold);
-          background: rgba(255,255,255,.04);
-          transform: translateY(-4px);
+          border-color: rgba(196,154,60,.4);
+          background: rgba(255,255,255,.05);
+          transform: translateY(-6px);
+          box-shadow: 0 20px 40px rgba(0,0,0,.2);
+        }
+        .cstl-feat-card:hover::before {
+          opacity: 1;
         }
         .cstl-feat-icon {
-          color: var(--gold); margin-bottom: 16px;
+          color: var(--gold); 
+          margin-bottom: 20px;
+          transition: all .35s cubic-bezier(.16,1,.3,1);
+        }
+        .cstl-feat-card:hover .cstl-feat-icon {
+          transform: scale(1.15) rotate(-5deg);
+          filter: drop-shadow(0 4px 8px rgba(196,154,60,.4));
         }
         .cstl-feat-title {
           font-size: 15px; font-weight: 600;
@@ -253,13 +290,15 @@ export default function CS_TicketLifecycle() {
         .cstl-reveal-d6 { transition-delay: .35s; }
 
         @media (max-width: 1024px) {
-          .cstl-flow { padding-bottom: 30px; margin-bottom: 40px; }
+          .cstl-flow { margin-bottom: 48px; }
           .cstl-grid { grid-template-columns: repeat(2,1fr); }
         }
         @media (max-width: 768px) {
-          .cstl-stage { width: 180px; }
-          .cstl-path { width: 40px; }
-          .cstl-stage-box { padding: 14px 18px; font-size: 12px; }
+          .cstl-flow { flex-wrap: wrap; gap: 12px; }
+          .cstl-stage-wrapper { flex-direction: column; width: 100%; }
+          .cstl-stage { width: 100%; }
+          .cstl-path { display: none; }
+          .cstl-stage-box { padding: 12px 16px; font-size: 12px; }
         }
         @media (max-width: 640px) {
           .cstl-grid { grid-template-columns: 1fr; }
@@ -278,7 +317,6 @@ export default function CS_TicketLifecycle() {
 
           <div className="cstl-reveal cstl-reveal-d1">
             <div className="cstl-flow">
-              <div className="cstl-signal"></div>
               {stages.map((s, i) => (
                 <div key={s.id} className="cstl-stage-wrapper">
                   <motion.div
@@ -292,13 +330,8 @@ export default function CS_TicketLifecycle() {
                       className="cstl-stage-box"
                       style={{
                         '--stage-color': s.color,
-                        '--stage-bg': s.bg,
-                        color: s.color,
-                        background: s.bg,
-                        borderColor: s.color + '55'
                       } as any}
                     >
-                      <div className="cstl-stage-pulse" style={{ background: s.color }} />
                       {s.label}
                     </div>
                   </motion.div>
@@ -306,7 +339,7 @@ export default function CS_TicketLifecycle() {
                   {i < stages.length - 1 && (
                     <div className="cstl-path">
                       <div className="cstl-path-inner" />
-                      <ChevronRight size={20} className="cstl-path-arrow" />
+                      <ChevronRight size={16} className="cstl-path-arrow" />
                     </div>
                   )}
                 </div>
@@ -316,17 +349,17 @@ export default function CS_TicketLifecycle() {
 
           <div className="cstl-grid">
             {features.map((f, i) => (
-              <motion.div
+              <div
                 key={i}
+                ref={el => cardRefs.current[i] = el}
                 className={`cstl-feat-card cstl-reveal cstl-reveal-d${i + 1}`}
-                whileHover={{ y: -5, borderColor: 'var(--gold)', backgroundColor: 'rgba(255,255,255,0.04)' }}
               >
                 <div className="cstl-feat-icon">
-                  <f.icon size={22} strokeWidth={2} />
+                  <f.icon size={24} strokeWidth={2.2} />
                 </div>
                 <div className="cstl-feat-title">{f.title}</div>
                 <div className="cstl-feat-desc">{f.desc}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

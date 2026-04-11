@@ -124,23 +124,23 @@ export default function S9_CTA() {
             </p>
           </div>
 
-          {/* Right Side: Buttons Column (Horizontal Row only for Mobile) */}
+          {/* Right Side: Buttons Column */}
           <div className="s9-cta-buttons" style={{ 
             display: 'flex', 
-            flexDirection: 'row', // Force row
+            flexDirection: 'column',
             gap: 12,
             flexShrink: 0,
-            flexWrap: 'nowrap', // Prevent stacking
             position: 'relative',
-            zIndex: 1
+            zIndex: 1,
+            minWidth: '200px'
           }}>
             <button style={{
-              flex: 1,
+              width: '100%',
               background: 'var(--gold)',
               color: 'var(--ink)',
               border: 'none',
               borderRadius: 12,
-              padding: '14px 18px',
+              padding: '14px 24px',
               fontSize: 'clamp(13px, 1.2vw, 15px)',
               fontWeight: 700,
               cursor: 'pointer',
@@ -155,12 +155,12 @@ export default function S9_CTA() {
               Digitize Now <ArrowRight size={16} />
             </button>
             <button style={{
-              flex: 1,
+              width: '100%',
               background: 'transparent',
               color: '#fff',
               border: '1px solid rgba(255,255,255,0.3)',
               borderRadius: 12,
-              padding: '14px 18px',
+              padding: '14px 24px',
               fontSize: 'clamp(13px, 1.2vw, 15px)',
               fontWeight: 600,
               cursor: 'pointer',
@@ -175,7 +175,7 @@ export default function S9_CTA() {
         </div>
       </div>
       <style jsx>{`
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
           .s9-cta-buttons {
             width: 100% !important;
           }

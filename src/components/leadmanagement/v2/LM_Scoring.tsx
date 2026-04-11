@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles, SlidersHorizontal, Zap } from 'lucide-react'
 
@@ -75,6 +76,8 @@ function ScoringBoard({ activeFeatureIndex, isMobile }: { activeFeatureIndex?: n
 }
 
 export default function LM_Scoring() {
+  const [activeFeature, setActiveFeature] = useState(0)
+
   return (
     <section id="scoring" style={{ background: '#f8f8f6' }}>
       <style>{`
@@ -103,7 +106,7 @@ export default function LM_Scoring() {
           color: var(--gold); text-transform: uppercase; letter-spacing: .8px;
         }
 
-        .lm-scoring-desktop { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48; alignItems: center; }
+        .lm-scoring-desktop { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; alignItems: center; }
         .lm-scoring-mobile { display: none; }
 
         @media (max-width: 900px) { 
@@ -141,18 +144,29 @@ export default function LM_Scoring() {
 
         {/* ── Mobile View ── */}
         <div className="lm-scoring-mobile reveal">
+          {/* Feature Tabs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
             {FEATURES.map((f, i) => (
-                <div key={f.title} style={{ marginBottom: 24 }}>
-                    <div className="lm-score-feat" style={{ background: 'rgba(0,0,0,.03)', borderColor: 'rgba(0,0,0,.07)' }}>
-                        <div className="lm-score-feat-icon"><f.Icon size={20} /></div>
-                        <div>
-                            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>{f.title}</div>
-                            <div style={{ fontSize: 12.5, color: 'var(--ink3)', lineHeight: 1.6 }}>{f.desc}</div>
-                        </div>
-                    </div>
-                    <ScoringBoard activeFeatureIndex={i} isMobile={true} />
+              <div
+                key={f.title}
+                className="lm-score-feat"
+                style={{
+                  background: activeFeature === i ? 'rgba(0,0,0,.06)' : 'rgba(0,0,0,.03)',
+                  borderColor: activeFeature === i ? 'rgba(45,91,227,.25)' : 'rgba(0,0,0,.07)',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setActiveFeature(i)}
+              >
+                <div className="lm-score-feat-icon"><f.Icon size={20} /></div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: activeFeature === i ? '#2D5BE3' : 'var(--ink)', marginBottom: 4 }}>{f.title}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--ink3)', lineHeight: 1.6 }}>{f.desc}</div>
                 </div>
+              </div>
             ))}
+          </div>
+          {/* Dashboard */}
+          <ScoringBoard activeFeatureIndex={activeFeature} isMobile={true} />
         </div>
       </div>
     </section>

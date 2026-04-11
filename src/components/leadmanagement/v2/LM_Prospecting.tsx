@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Map, Crosshair, Link2, ArrowRight } from 'lucide-react'
 
@@ -77,6 +78,8 @@ function ProspectMap({ isMobile }: { isMobile?: boolean }) {
 }
 
 export default function LM_Prospecting() {
+  const [activeFeature, setActiveFeature] = useState(0)
+
   return (
     <section id="prospecting" style={{ background: 'var(--navy)' }}>
       <style>{`
@@ -105,7 +108,7 @@ export default function LM_Prospecting() {
           margin-top: 6px;
         }
 
-        .lm-pros-desktop { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48; alignItems: center; }
+        .lm-pros-desktop { display: grid; grid-template-columns: 1.15fr 1fr; gap: 80px; alignItems: center; }
         .lm-pros-mobile { display: none; }
 
         @media (max-width: 900px) { 
@@ -140,18 +143,30 @@ export default function LM_Prospecting() {
 
         {/* ── Mobile View ── */}
         <div className="lm-pros-mobile reveal">
+          {/* Feature Tabs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
             {FEATURES.map((f, i) => (
-                <div key={f.title} style={{ marginBottom: 24 }}>
-                    <div className="lm-pros-feat" style={{ background: 'rgba(255,255,255,.04)', borderColor: 'rgba(255,255,255,.07)' }}>
-                        <div className="lm-pros-icon"><f.Icon size={20} strokeWidth={2} /></div>
-                        <div>
-                            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{f.title}</div>
-                            <div style={{ fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.6 }}>{f.desc}</div>
-                        </div>
-                    </div>
-                    <ProspectMap isMobile={true} />
+              <div
+                key={f.title}
+                className="lm-pros-feat"
+                style={{
+                  background: activeFeature === i ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)',
+                  borderColor: activeFeature === i ? 'rgba(196,154,60,.3)' : 'rgba(255,255,255,.07)',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setActiveFeature(i)}
+              >
+                <div className="lm-pros-icon"><f.Icon size={20} strokeWidth={2} /></div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: activeFeature === i ? 'var(--gold)' : 'var(--text)', marginBottom: 4 }}>{f.title}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.6 }}>{f.desc}</div>
+                  {f.badge && <div className="lm-pros-badge">{f.badge}</div>}
                 </div>
+              </div>
             ))}
+          </div>
+          {/* Dashboard */}
+          <ProspectMap isMobile={true} />
         </div>
       </div>
     </section>

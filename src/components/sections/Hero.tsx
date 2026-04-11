@@ -26,8 +26,9 @@ export default function Hero() {
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
         gap: '4vw',
-        minHeight: '85vh',
-        paddingTop: '80px',
+        minHeight: '90vh',
+        paddingTop: '100px',
+        paddingBottom: '0',
         zIndex: 10
       }}>
         {/* LEFT — copy */}
@@ -48,13 +49,19 @@ export default function Hero() {
           </p>
 
           <div className="ce-hero-ctas">
-            <a href="#cta" className="btn-hero-gold">Book a Demo →</a>
+            <button 
+              onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+              className="btn-hero-gold"
+              style={{ cursor: 'pointer', border: 'none' }}
+            >
+              Book a Demo →
+            </button>
             <a href="#solution" className="btn-hero-outline">▶ See how it works</a>
           </div>
         </div>
 
         {/* RIGHT — floating dashboard */}
-        <div className="ce-hero-right" style={{ height: '700px', alignSelf: 'center' }}>
+        <div className="ce-hero-right" style={{ minHeight: '700px', alignSelf: 'center' }}>
           {/* Main dashboard card */}
           <div className="ce-hcard ce-hcard-dashboard" style={{ right: '0%', top: '15%', width: '110%' }}>
             <div className="ce-card-titlebar">

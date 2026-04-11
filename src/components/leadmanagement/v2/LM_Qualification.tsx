@@ -92,6 +92,7 @@ function RuleDetail({ rule, isMobile }: { rule: any, isMobile?: boolean }) {
 
 export default function LM_Qualification() {
   const [active, setActive] = useState('webform')
+  const [activeMobile, setActiveMobile] = useState(0)
   const current = RULES.find(r => r.id === active) || RULES[1]
 
   return (
@@ -119,7 +120,7 @@ export default function LM_Qualification() {
           margin-left: auto; flex-shrink: 0;
         }
 
-        .lm-qual-desktop { display: grid; grid-template-columns: 1fr 1fr; gap: 48; alignItems: start; }
+        .lm-qual-desktop { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; alignItems: start; }
         .lm-qual-mobile { display: none; }
 
         @media (max-width: 900px) { 
@@ -180,23 +181,34 @@ export default function LM_Qualification() {
 
         {/* ── Mobile View ── */}
         <div className="lm-qual-mobile reveal">
-            {RULES.map(rule => (
-                <div key={rule.id}>
-                    <div
-                        className="lm-qual-tab lm-qual-active"
-                        style={{ borderColor: rule.border, pointerEvents: 'none', borderRadius: '12px 12px 0 0' }}
-                    >
-                        <div className="lm-qual-tab-icon" style={{ background: rule.bg, border: `1px solid ${rule.border}`, color: rule.color }}>
-                            <rule.icon size={18} strokeWidth={2} />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontSize: 12, fontWeight: 600, color: rule.color }}>{rule.label}</div>
-                            <div style={{ fontSize: 11, color: 'var(--text3)' }}>{rule.rule}</div>
-                        </div>
-                    </div>
-                    <RuleDetail rule={rule} isMobile={true} />
+          {/* Rule Tabs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+            {RULES.map((rule, i) => (
+              <div
+                key={rule.id}
+                className="lm-qual-tab"
+                style={{
+                  borderColor: activeMobile === i ? rule.border : 'transparent',
+                  background: activeMobile === i ? 'var(--surface2)' : 'var(--surface)',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setActiveMobile(i)}
+              >
+                <div className="lm-qual-tab-icon" style={{ background: rule.bg, border: `1px solid ${rule.border}`, color: rule.color }}>
+                  <rule.icon size={18} strokeWidth={2} />
                 </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: activeMobile === i ? rule.color : 'var(--text2)' }}>{rule.label}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text3)' }}>{rule.rule}</div>
+                </div>
+                <span className="lm-qual-outcome" style={{ background: rule.bg, border: `1px solid ${rule.border}`, color: rule.color }}>
+                  {rule.outcome}
+                </span>
+              </div>
             ))}
+          </div>
+          {/* Dashboard */}
+          <RuleDetail rule={RULES[activeMobile]} isMobile={true} />
         </div>
       </div>
     </section>

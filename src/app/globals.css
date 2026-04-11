@@ -82,9 +82,9 @@ a {
 
 /* ── LAYOUT ── */
 .wrap {
-  max-width: min(96vw, 1200px);
+  max-width: min(92vw, 1400px);
   margin: 0 auto;
-  padding: 72px clamp(20px, 4vw, 72px);
+  padding: 72px clamp(32px, 5vw, 80px);
 }
 
 .section-light {
@@ -160,6 +160,52 @@ a {
 }
 
 /* ── BUTTONS ── */
+.ce-centered-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 12px;
+}
+
+.ce-modal-glass {
+  background: rgba(13, 22, 38, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.ce-role-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ce-role-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.ce-role-card.active {
+  background: var(--gold-bg);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(196, 154, 60, 0.15);
+}
+
+.h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #fff;
+}
+
 .btn-ghost {
   font-size: 13px;
   font-weight: 400;
@@ -498,7 +544,7 @@ a {
 }
 
 .ce-hero-left {
-  padding: clamp(88px, 8vw, 110px) clamp(16px, 3vw, 40px) clamp(32px, 3vw, 48px) clamp(32px, 5vw, 72px);
+  padding: clamp(88px, 8vw, 110px) clamp(24px, 4vw, 48px) clamp(32px, 3vw, 48px) clamp(40px, 6vw, 80px);
   position: relative;
   z-index: 10;
   align-self: center;

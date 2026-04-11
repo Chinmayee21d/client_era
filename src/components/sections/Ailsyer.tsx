@@ -243,10 +243,7 @@ function BrowserView({ active, layer, isMobile, caption }: {
 
 export default function AILayer() {
     const [active, setActive] = useState(0)
-    const [autoPlay, setAutoPlay] = useState(true)
-    const observerRef = useRef<IntersectionObserver | null>(null)
     const cardsRef = useRef<(HTMLDivElement | null)[]>([])
-    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
     const CAPTIONS = [
         'AI Digest delivered at 08:00 — next action surfaced automatically per user',
@@ -254,41 +251,8 @@ export default function AILayer() {
         'Model aliases resolved at runtime — BYOK tenants carry no platform token cap',
     ]
 
-    useEffect(() => {
-        const options = {
-            root: null,
-            rootMargin: '-25% 0px -45% 0px',
-            threshold: 0.1
-        }
-
-        observerRef.current = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const idx = Number(entry.target.getAttribute('data-index'))
-                    if (!isNaN(idx)) {
-                        setActive(idx)
-                        setAutoPlay(false)
-                    }
-                }
-            })
-        }, options)
-
-        cardsRef.current.forEach(c => { if (c) observerRef.current?.observe(c) })
-
-        return () => observerRef.current?.disconnect()
-    }, [])
-
-    useEffect(() => {
-        if (autoPlay) {
-            timerRef.current = setInterval(() => setActive(p => (p + 1) % LAYERS.length), 5500)
-        } else if (timerRef.current) clearInterval(timerRef.current)
-        return () => { if (timerRef.current) clearInterval(timerRef.current) }
-    }, [autoPlay])
-
     const pick = (i: number) => {
         setActive(i)
-        setAutoPlay(false)
-        cardsRef.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
     return (
@@ -372,16 +336,28 @@ export default function AILayer() {
                 </div>
 
                 <div className="ai-mobile">
-                    {LAYERS.map((l, i) => (
-                        <div key={l.id} style={{ marginBottom: 40 }}>
-                            <div style={{ padding: '24px 20px', background: 'rgba(255,255,255,.02)', borderRadius: '20px 20px 0 0', border: `1px solid ${l.color}44`, borderBottom: 'none' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+                        {LAYERS.map((l, i) => (
+                            <div 
+                                key={l.id}
+                                onClick={() => setActive(i)}
+                                style={{
+                                    padding: '20px', 
+                                    background: active === i ? 'rgba(255,255,255,.04)' : 'rgba(255,255,255,.02)', 
+                                    borderRadius: 16, 
+                                    border: `1px solid ${active === i ? l.color + '44' : 'var(--border)'}`,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    opacity: active === i ? 1 : 0.6
+                                }}
+                            >
                                 <div style={{ fontSize: 9, fontWeight: 700, color: l.color, textTransform: 'uppercase', marginBottom: 8 }}>{l.badgeLabel}</div>
-                                <div style={{ fontFamily: "'Fraunces',serif", fontSize: 20, color: '#fff', marginBottom: 8 }}>{l.title}</div>
-                                <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>{l.desc}</div>
+                                <div style={{ fontFamily: "'Fraunces',serif", fontSize: 18, color: '#fff', marginBottom: 6 }}>{l.title}</div>
+                                <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.6 }}>{l.tagline}</div>
                             </div>
-                            <BrowserView active={i} layer={l} caption={CAPTIONS[i]} isMobile={true} />
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <BrowserView active={active} layer={LAYERS[active]} caption={CAPTIONS[active]} isMobile={true} />
                 </div>
             </div>
         </section>

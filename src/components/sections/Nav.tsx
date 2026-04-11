@@ -13,19 +13,19 @@ const SOLUTIONS = [
   },
   { 
     href: '/sales-ops', 
-    label: 'Sales Operations', 
+    label: 'Order to Cash', 
     icon: BarChart3,
     color: '#C49A3C'
   },
   { 
     href: '/sales-management', 
-    label: 'Sales Management', 
+    label: 'Sales and Engagement', 
     icon: Target,
     color: '#18B87A'
   },
   { 
     href: '/customer-support', 
-    label: 'Customer Support', 
+    label: 'Customer Excellence', 
     icon: HelpCircle,
     color: '#9C40F0'
   },
@@ -180,7 +180,13 @@ export default function Navbar() {
         {/* Desktop CTAs */}
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }} className="nav-desktop">
           <a href="#" className="btn-ghost" style={{ padding: '8px 20px', fontSize: 13 }}>Log in</a>
-          <a href="#cta" className="btn-gold" style={{ padding: '8px 22px', fontSize: 13 }}>Book a Demo</a>
+          <button 
+            onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+            className="btn-gold" 
+            style={{ padding: '8px 22px', fontSize: 13, cursor: 'pointer', border: 'none' }}
+          >
+            Book a Demo
+          </button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -256,7 +262,13 @@ export default function Navbar() {
 
         <div style={{ marginTop: 'auto', padding: '32px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <a href="#" className="btn-ghost" style={{ justifyContent: 'center', padding: '14px' }}>Log in</a>
-          <a href="#cta" className="btn-gold" style={{ justifyContent: 'center', padding: '14px' }}>Book a Demo</a>
+          <button 
+            onClick={() => { closeMenu(); window.dispatchEvent(new Event('open-enquiry-modal')); }}
+            className="btn-gold" 
+            style={{ justifyContent: 'center', padding: '14px', cursor: 'pointer', border: 'none' }}
+          >
+            Book a Demo
+          </button>
         </div>
       </div>
     </>

@@ -67,12 +67,12 @@ export default function CS_SatisfactionMetrics() {
         .cs-m-card {
           background: rgba(255,255,255,0.03);
           border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 20px; padding: 24px;
+          border-radius: 20px; padding: 20px 18px;
           text-align: center; transition: all 0.3s;
         }
         .cs-m-card:hover { transform: translateY(-5px); border-color: var(--gold); background: rgba(196,154,60,0.05); }
-        .cs-m-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 12px; }
-        .cs-m-value { font-family: 'Fraunces', serif; font-size: 36px; color: white; margin-bottom: 8px; }
+        .cs-m-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 10px; }
+        .cs-m-value { font-family: 'Fraunces', serif; font-size: 36px; color: white; margin-bottom: 6px; }
         .cs-m-trend { font-size: 12px; font-weight: 600; }
 
         .cs-ops-grid {

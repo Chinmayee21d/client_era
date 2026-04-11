@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, AlertCircle, UserCheck } from 'lucide-react'
 
 const STEPS = [
@@ -18,8 +19,19 @@ const HANDOFF_ITEMS = [
 ]
 
 export default function LM_Handoff() {
+  const sectionRef = useRef<HTMLElement>(null)
+  
+  // Track scroll progress within this section
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  })
+  
+  // Transform scroll progress to translateY value - move dashboard down significantly to match the 5 steps height
+  const dashboardY = useTransform(scrollYProgress, [0.2, 0.8], [0, 350])
+  
   return (
-    <section id="handoff" style={{ background: '#f8f8f6', paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} id="handoff" style={{ background: '#f8f8f6', paddingTop: 100, paddingBottom: 100 }}>
       <style>{`
         .lm-hf-step {
           display: flex; gap: 24px; align-items: flex-start;

@@ -11,13 +11,6 @@ console.log(`Standalone Path: ${standalonePath}`);
 
 if (!fs.existsSync(standalonePath)) {
   console.log('Error: Standalone folder not found! Next.js build might have failed or output: "standalone" is not set.');
-  console.log('Listing contents of .next directory for diagnostics:');
-  try {
-    const nextContents = fs.readdirSync(rootNext);
-    console.log(nextContents.join(', '));
-  } catch (err) {
-    console.log(`Failed to list .next contents: ${err.message}`);
-  }
   process.exit(0); // Exit gracefully to allow OpenNext to show its own error if it wants
 }
 
@@ -44,10 +37,10 @@ console.log(`Checking for BUILD_ID at: ${expectedBuildIdPath}`);
 
 if (!fs.existsSync(expectedBuildIdPath)) {
   console.log('BUILD_ID not found in standard location. Searching...');
-  
+
   // Try to find it anywhere in standalone
   const foundBuildId = findFile(standalonePath, 'BUILD_ID');
-  
+
   if (foundBuildId) {
     console.log(`Found BUILD_ID at: ${foundBuildId}. Copying to standard location...`);
     fs.mkdirSync(path.dirname(expectedBuildIdPath), { recursive: true });
@@ -55,7 +48,7 @@ if (!fs.existsSync(expectedBuildIdPath)) {
   } else {
     console.log('BUILD_ID missing from standalone entirely. Checking root .next...');
     const sourceBuildId = path.join(rootNext, 'BUILD_ID');
-    
+
     if (fs.existsSync(sourceBuildId)) {
       console.log('Restoring BUILD_ID from root .next to standalone folder...');
       fs.mkdirSync(path.dirname(expectedBuildIdPath), { recursive: true });
@@ -77,7 +70,7 @@ console.log(`Checking for pages-manifest.json at: ${expectedManifestPath}`);
 if (!fs.existsSync(expectedManifestPath)) {
   console.log('pages-manifest.json not found. Searching...');
   const foundManifest = findFile(standalonePath, 'pages-manifest.json');
-  
+
   if (foundManifest) {
     console.log(`Found pages-manifest.json at: ${foundManifest}. Copying to standard location...`);
     fs.mkdirSync(path.dirname(expectedManifestPath), { recursive: true });
@@ -94,13 +87,13 @@ if (!fs.existsSync(expectedManifestPath)) {
 // 3. Ensure .next/required-server-files.json if missing
 const expectedRequiredFilesPath = path.join(standalonePath, '.next/required-server-files.json');
 if (!fs.existsSync(expectedRequiredFilesPath)) {
-    console.log('Checking for required-server-files.json in root...');
-    const sourceRequiredFiles = path.join(rootNext, 'required-server-files.json');
-    if (fs.existsSync(sourceRequiredFiles)) {
-        console.log('Copying required-server-files.json to standalone...');
-        fs.mkdirSync(path.dirname(expectedRequiredFilesPath), { recursive: true });
-        fs.copyFileSync(sourceRequiredFiles, expectedRequiredFilesPath);
-    }
+  console.log('Checking for required-server-files.json in root...');
+  const sourceRequiredFiles = path.join(rootNext, 'required-server-files.json');
+  if (fs.existsSync(sourceRequiredFiles)) {
+    console.log('Copying required-server-files.json to standalone...');
+    fs.mkdirSync(path.dirname(expectedRequiredFilesPath), { recursive: true });
+    fs.copyFileSync(sourceRequiredFiles, expectedRequiredFilesPath);
+  }
 }
 
 console.log('--- Build Artifact Repair Complete ---');

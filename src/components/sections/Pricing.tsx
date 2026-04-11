@@ -9,7 +9,7 @@ const TIERS = [
     name: 'Starter',
     currency: '₹',
     price: '4,999',
-    period: '/month',
+    period: '/person/month',
     tagline: 'For micro-businesses getting their commercial operations unified.',
     featured: false,
     features: [
@@ -28,7 +28,7 @@ const TIERS = [
     name: 'Growth',
     currency: '₹',
     price: '9,999',
-    period: '/month',
+    period: '/person/month',
     tagline: 'For scaling teams that need custom workflows and ERP sync.',
     featured: true,
     features: [

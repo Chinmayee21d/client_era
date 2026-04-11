@@ -11,10 +11,12 @@ import AiCapabilities   from '@/components/sections/AiCapabilities';
 import Fulfillment     from '@/components/sections/Fulfillment';
 import KPIEngine      from '@/components/sections/KPIEngine';
 import Comparison     from '@/components/sections/Comparison';
+import Services       from '@/components/sections/Services';
 import Compliance     from '@/components/sections/Compliance';
 import Pricing        from '@/components/sections/Pricing';
 import CTA            from '@/components/sections/CTA';
 import Footer         from '@/components/sections/Footer';
+import EnquiryModal   from '@/components/sections/EnquiryModal';
 
 export default function Home() {
   /* scroll-reveal observer */
@@ -48,12 +50,14 @@ export default function Home() {
           <Fulfillment />
           <KPIEngine />
           <Comparison />
+          <Services />
           <Compliance />
           <Pricing />
           <CTA />
         </div>
       </main>
       <Footer />
+      <EnquiryModal />
     </>
   );
 }

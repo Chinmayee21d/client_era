@@ -15,7 +15,13 @@ export default function CTABanner() {
           </p>
         </div>
         <div className="ce-cta-right">
-          <a href="#" className="ce-cta-btn ce-cta-btn-primary">Book a Live Demo →</a>
+          <button 
+            onClick={() => window.dispatchEvent(new Event('open-enquiry-modal'))}
+            className="ce-cta-btn ce-cta-btn-primary"
+            style={{ cursor: 'pointer', border: 'none' }}
+          >
+            Book a Live Demo →
+          </button>
           <a href="#solution" className="ce-cta-btn ce-cta-btn-ghost">Explore the Platform</a>
           <p className="ce-cta-micro">No credit card required · SOC2 compliant</p>
         </div>

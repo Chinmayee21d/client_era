@@ -197,6 +197,70 @@ export default function CS_AI_Intelligence() {
         .cs-ai-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 24px; }
         .cs-ai-ey-line { width: 32px; height: 1.5px; background: var(--gold); border-radius: 99px; }
         .cs-ai-h2 { font-family: 'Fraunces', serif; font-size: clamp(36px, 4.5vw, 54px); line-height: 1.05; color: var(--navy); margin-bottom: 32px; font-weight: 400; }
+        
+        /* Feature Cards with Hover Effects */
+        .cs-ai-feature-card {
+          border-radius: 16px;
+          padding: 20px 24px;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .cs-ai-feature-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transition: opacity 0.35s;
+          z-index: 0;
+        }
+        .cs-ai-feature-card > * {
+          position: relative;
+          z-index: 1;
+        }
+        
+        .cs-ai-feature-white {
+          background: white;
+          border: 1px solid #e8e4de;
+        }
+        .cs-ai-feature-white::before {
+          background: radial-gradient(circle at 50% 0%, rgba(196,154,60,0.08) 0%, transparent 70%);
+        }
+        .cs-ai-feature-white:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+          border-color: rgba(196,154,60,0.3);
+        }
+        .cs-ai-feature-white:hover::before {
+          opacity: 1;
+        }
+        
+        .cs-ai-feature-gold {
+          background: rgba(196,154,60,0.04);
+          border: 1px solid rgba(196,154,60,0.1);
+        }
+        .cs-ai-feature-gold::before {
+          background: radial-gradient(circle at 50% 0%, rgba(196,154,60,0.12) 0%, transparent 70%);
+        }
+        .cs-ai-feature-gold:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(196,154,60,0.15);
+          border-color: rgba(196,154,60,0.35);
+          background: rgba(196,154,60,0.08);
+        }
+        .cs-ai-feature-gold:hover::before {
+          opacity: 1;
+        }
+        
+        .cs-ai-feature-icon {
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          margin-bottom: 10px;
+        }
+        .cs-ai-feature-card:hover .cs-ai-feature-icon {
+          transform: scale(1.15) rotate(-5deg);
+          filter: drop-shadow(0 4px 8px rgba(196,154,60,0.4));
+        }
         .cs-ai-h2 em { font-style: italic; color: var(--gold); font-weight: 300; }
         .cs-ai-lead { font-size: 17px; color: var(--ink3); line-height: 1.7; margin-bottom: 40px; font-weight: 300; max-width: 480px; }
         .cs-dash-wrapper { margin-top: 156px; }
@@ -270,14 +334,14 @@ export default function CS_AI_Intelligence() {
           </p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className="cs-ai-feature" style={{ background: 'white', border: '1px solid #e8e4de', borderRadius: 16, padding: '20px 24px' }}>
-              <Database size={18} color="var(--gold)" style={{ marginBottom: 10 }} />
+            <div className="cs-ai-feature-card cs-ai-feature-white">
+              <Database size={18} color="var(--gold)" className="cs-ai-feature-icon" />
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--navy)', marginBottom: 4 }}>Cross-Silo Context</div>
               <div style={{ fontSize: 11, color: 'var(--ink3)', lineHeight: 1.5 }}>Aggregates data from Zendesk, Freshdesk, and internal ERPs automatically.</div>
             </div>
-            <div style={{ background: 'rgba(196,154,60,0.04)', borderRadius: 16, padding: '20px 24px', border: '1px solid rgba(196,154,60,0.1)' }}>
+            <div className="cs-ai-feature-card cs-ai-feature-gold">
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Zap size={14} /> 72% Efficiency
+                <Zap size={14} className="cs-ai-feature-icon" /> 72% Efficiency
               </div>
               <div style={{ fontSize: 11, color: 'var(--ink3)', lineHeight: 1.5 }}>Reduction in first-response time across elite enterprise deployments.</div>
             </div>

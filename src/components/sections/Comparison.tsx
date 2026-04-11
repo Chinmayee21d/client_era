@@ -17,18 +17,18 @@ export default function Comparison() {
     const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
     return (
-        <section className="section-light" id="comparison" style={{ position: 'relative', background: 'var(--cream)', padding: '40px 0', overflow: 'hidden' }}>
+        <section className="section-dark" id="comparison" style={{ position: 'relative', background: 'var(--navy)', padding: '40px 0', overflow: 'hidden' }}>
             <div className="wrap">
                 
                 {/* ── Header ── */}
                 <div className="reveal" style={{ textAlign: 'center', maxWidth: 660, margin: '0 auto 32px' }}>
-                    <div className="eyebrow eyebrow-dark" style={{ justifyContent: 'center' }}>
+                    <div className="eyebrow" style={{ justifyContent: 'center' }}>
                         <span className="ey-line" />Why ClientEra
                     </div>
-                    <h2 className="h2 h2-ink" style={{ textAlign: 'center', marginTop: 8 }}>
+                    <h2 className="h2" style={{ textAlign: 'center', marginTop: 8 }}>
                         Old systems record.<br /><em>ClientEra decides.</em>
                     </h2>
-                    <p className="lead lead-ink" style={{ margin: '0 auto', textAlign: 'center', marginTop: 12 }}>
+                    <p className="lead" style={{ margin: '0 auto', textAlign: 'center', marginTop: 12 }}>
                         Legacy CRMs act strictly as rear-view mirrors. ClientEra is the intelligent steering wheel — processing the past to execute your future.
                     </p>
                 </div>
@@ -46,7 +46,7 @@ export default function Comparison() {
                                 onMouseLeave={() => setHoveredRow(null)}
                                 className="ce-row-label"
                                 style={{
-                                    color: hoveredRow === i ? 'var(--navy)' : 'var(--ink3)',
+                                    color: hoveredRow === i ? 'var(--gold)' : 'var(--text2)',
                                     transform: hoveredRow === i ? 'translateX(4px)' : 'none',
                                 }}
                             >
@@ -58,8 +58,8 @@ export default function Comparison() {
                     {/* Left Pillar: Legacy Form */}
                     <div className="ce-compare-legacy">
                         <div className="ce-pillar-header">
-                            <div className="ce-pillar-sub" style={{ color: 'var(--ink3)' }}>The Old Way</div>
-                            <div className="ce-pillar-title" style={{ color: 'var(--ink)' }}>Legacy Systems</div>
+                            <div className="ce-pillar-sub" style={{ color: 'rgba(255,255,255,0.5)' }}>The Old Way</div>
+                            <div className="ce-pillar-title" style={{ color: 'var(--text)' }}>Legacy Systems</div>
                         </div>
                         
                         {ROWS.map((r, i) => (
@@ -69,13 +69,13 @@ export default function Comparison() {
                                 onMouseLeave={() => setHoveredRow(null)}
                                 className="ce-pillar-row"
                                 style={{ 
-                                    background: hoveredRow === i ? 'rgba(0,0,0,0.02)' : 'transparent',
+                                    background: hoveredRow === i ? 'rgba(255,255,255,0.04)' : 'transparent',
                                 }}
                             >
                                 <span className="ce-mobile-label">{r.feature}</span>
                                 <div style={{ display: 'flex' }}>
                                     <span style={{ color: '#ef4444', marginRight: 14, fontWeight: 700 }}>✗</span>
-                                    <span style={{ color: 'var(--ink2)' }}>{r.legacy}</span>
+                                    <span style={{ color: 'var(--text2)' }}>{r.legacy}</span>
                                 </div>
                             </div>
                         ))}
@@ -112,7 +112,7 @@ export default function Comparison() {
 
                 </div>
 
-                <p style={{ textAlign: 'center', fontFamily: "'Fraunces',serif", fontSize: 17, color: 'var(--ink3)', marginTop: 40, fontStyle: 'italic', fontWeight: 300 }}>
+                <p style={{ textAlign: 'center', fontFamily: "'Fraunces',serif", fontSize: 17, color: 'var(--text2)', marginTop: 40, fontStyle: 'italic', fontWeight: 300 }}>
                     "Old systems record what happened. ClientEra decides what should happen next — and executes it."
                 </p>
             </div>
@@ -147,29 +147,40 @@ export default function Comparison() {
                 /* Legacy Pillar */
                 .ce-compare-legacy {
                     width: 320px;
-                    background: #fff;
+                    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
                     border-radius: 20px 0 0 20px;
-                    border: 1px solid rgba(0,0,0,0.06);
+                    border: 1px solid rgba(255,255,255,0.1);
                     border-right: none;
                     padding-top: 24px;
                     padding-bottom: 24px;
-                    box-shadow: -10px 0 40px rgba(0,0,0,0.02);
+                    box-shadow: -10px 0 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
                     position: relative;
                     z-index: 1;
+                    backdrop-filter: blur(10px);
                 }
 
                 /* ClientEra Pillar */
                 .ce-compare-ce {
                     width: 380px;
-                    background: var(--navy);
+                    background: linear-gradient(135deg, rgba(196,154,60,0.12) 0%, rgba(196,154,60,0.06) 100%);
                     border-radius: 20px;
                     padding-top: 40px;
                     padding-bottom: 40px;
-                    box-shadow: 0 30px 80px rgba(12, 24, 40, 0.25);
+                    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(196,154,60,0.3), inset 0 1px 0 rgba(196,154,60,0.2);
                     position: relative;
                     z-index: 10;
                     margin-left: -16px; /* Vital overlap */
-                    border: 1px solid rgba(255,255,255,0.05);
+                    border: 1px solid rgba(196,154,60,0.25);
+                    backdrop-filter: blur(10px);
+                }
+                
+                .ce-compare-ce::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 20px;
+                    background: radial-gradient(ellipse at top, rgba(196,154,60,0.15) 0%, transparent 60%);
+                    pointer-events: none;
                 }
 
                 .ce-pillar-header {
@@ -235,7 +246,7 @@ export default function Comparison() {
                         padding-bottom: 32px;
                     }
                     .ce-compare-legacy {
-                        border-right: 1px solid rgba(0,0,0,0.06);
+                        border-right: 1px solid rgba(255,255,255,0.1);
                     }
                     .ce-pillar-header {
                         height: auto;
@@ -257,12 +268,12 @@ export default function Comparison() {
                         font-size: 11.5px; 
                         text-transform: uppercase; 
                         letter-spacing: 1px;
-                        color: var(--ink3); 
+                        color: rgba(255,255,255,0.4); 
                         font-weight: 700;
                         margin-bottom: 8px; 
                     }
                     .ce-mobile-label-ce {
-                        color: rgba(255,255,255,0.4);
+                        color: rgba(255,255,255,0.5);
                     }
                 }
             `}</style>

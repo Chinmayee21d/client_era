@@ -302,11 +302,12 @@ export default function CS_Hero() {
           scroll-snap-type: x mandatory;
           mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
           -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+          margin-top: auto;
         }
         .cs-hero-stats-bar::-webkit-scrollbar { display: none; }
 
         .cs-hsb-item {
-          flex: 0 0 160px; text-align: center; padding: 16px;
+          flex: 1; text-align: center; padding: 20px 16px;
           border-right: 1px solid rgba(255,255,255,.07);
           position: relative; overflow: hidden;
           transition: background .3s;
@@ -324,7 +325,7 @@ export default function CS_Hero() {
           font-family: 'Fraunces', serif;
           font-size: clamp(22px, 2vw, 34px);
           color: var(--text); letter-spacing: -1px;
-          line-height: 1; margin-bottom: 5px;
+          line-height: 1.2; margin-bottom: 6px;
         }
         .cs-hsb-lbl {
           font-size: 9.5px;
@@ -503,7 +504,7 @@ export default function CS_Hero() {
         </div>
 
         {/* STATS BAR */}
-        <div className="cs-hero-stats-bar" style={{ marginTop: 'auto' }}>
+        <div className="cs-hero-stats-bar">
           <div className="cs-hsb-item">
             <div className="cs-hsb-num"><span className="cs-cu" data-t="94">0</span>%</div>
             <div className="cs-hsb-lbl">SLA Compliance Rate</div>

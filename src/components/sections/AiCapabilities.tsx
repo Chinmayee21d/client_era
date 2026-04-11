@@ -163,7 +163,7 @@ const CSS = `
   }
 
   .cap-icon {
-    width: 48px; height: 48px;
+    width: 52px; height: 52px;
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 26px; flex-shrink: 0;
@@ -173,18 +173,18 @@ const CSS = `
 
   .cap-title {
     font-family: 'Fraunces', serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
-    line-height: 1.25;
-    margin-bottom: 13px;
+    line-height: 1.3;
+    margin-bottom: 14px;
     color: var(--ink);
   }
 
   .cap-desc {
     font-family: 'Geist', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--ink3);
-    line-height: 1.72;
+    line-height: 1.75;
     font-weight: 300;
     flex: 1;
     margin: 0;
@@ -196,9 +196,9 @@ const CSS = `
     align-items: center;
     gap: 6px;
     font-family: 'Geist', sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
-    padding: 4px 11px;
+    padding: 5px 12px;
     border-radius: 100px;
     border: 1px solid transparent;
     text-transform: uppercase;
@@ -307,7 +307,7 @@ export default function AiCapabilities() {
         <section
             ref={sectionRef}
             className="section-light"
-            style={{ background: 'var(--cream)', padding: '32px 0 80px', position: 'relative', overflow: 'hidden' }}
+            style={{ background: 'var(--cream)', padding: '32px 0 48px', position: 'relative', overflow: 'hidden' }}
         >
             <style>{CSS}</style>
 
@@ -333,22 +333,23 @@ export default function AiCapabilities() {
                     opacity: visible ? 1 : 0,
                     transform: visible ? 'none' : 'translateY(20px)',
                     transition: 'all 0.65s cubic-bezier(0.22,1,0.36,1)',
-                    textAlign: 'center', maxWidth: 800, margin: '0 auto 48px',
+                    textAlign: 'center', maxWidth: 800, margin: '0 auto 56px',
                 }}>
                     <div className="eyebrow eyebrow-dark" style={{ justifyContent: 'center' }}>
                         <span className="ey-line" />Native Intelligence
                     </div>
                     <h2 className="h2 h2-ink" style={{ 
-                        marginTop: 16, marginBottom: 16, 
-                        fontSize: isMobile ? '28px' : '42px',
-                        lineHeight: 1.2
+                        marginTop: 12, marginBottom: 14, 
+                        fontSize: isMobile ? '32px' : '52px',
+                        lineHeight: 1.15
                     }}>
                         AI built into<br />{isMobile ? <em>every workflow.</em> : <em>every daily workflow.</em>}
                     </h2>
                     <p className="lead lead-ink" style={{ 
                         margin: '0 auto',
-                        fontSize: isMobile ? '16px' : '18px',
-                        maxWidth: 600
+                        fontSize: isMobile ? '16px' : '19px',
+                        maxWidth: 640,
+                        lineHeight: 1.7
                     }}>
                         No separate tabs, no prompting required. ClientEra's AI works in the background — extracting tasks, drafting responses, and surfacing anomalies as you work.
                     </p>
@@ -404,7 +405,7 @@ export default function AiCapabilities() {
                                         className="cap-icon"
                                         style={{ background: c.accentDim, border: `1px solid ${c.accentBorder}`, color: c.accent }}
                                     >
-                                        <Icon size={20} strokeWidth={1.65} />
+                                        <Icon size={22} strokeWidth={1.65} />
                                     </div>
 
                                     {/* title */}

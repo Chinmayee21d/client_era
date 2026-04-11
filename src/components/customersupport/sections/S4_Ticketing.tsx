@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { Target, TrendingDown, DollarSign } from 'lucide-react'
 
 export default function CS_ContextIntelligence() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -77,10 +78,12 @@ export default function CS_ContextIntelligence() {
           box-shadow: 0 4px 16px rgba(0,0,0,.06);
         }
         .csci-fi-icon {
-          width: 34px; height: 34px; border-radius: 9px;
+          width: 38px; height: 38px; border-radius: 10px;
           display: flex; align-items: center; justify-content: center;
-          font-size: 16px; flex-shrink: 0;
-          background: #f0ece6; border: 1px solid #e0dcd4;
+          flex-shrink: 0;
+          background: linear-gradient(135deg, #f0ece6, #faf8f4);
+          border: 1px solid #e0dcd4;
+          color: var(--gold);
         }
         .csci-fi-title {
           font-size: 13.5px; font-weight: 700;
@@ -250,12 +253,14 @@ export default function CS_ContextIntelligence() {
               </p>
               <div className="csci-feat-list">
                 {[
-                  { icon: '🎯', title: 'Open Ticket Visibility', desc: 'Every open issue on the account surfaces in the pre-visit brief and the rep\'s daily co-pilot.' },
-                  { icon: '📉', title: 'CSAT Trend Warning', desc: 'If satisfaction scores have declined over the last three interactions, the rep sees it as a flag before they walk in.' },
-                  { icon: '💰', title: 'Commercial Context', desc: 'Overdue invoices, pending SORs, and last payment date — all visible alongside the ticket history.' },
+                  { icon: Target, title: 'Open Ticket Visibility', desc: 'Every open issue on the account surfaces in the pre-visit brief and the rep\'s daily co-pilot.' },
+                  { icon: TrendingDown, title: 'CSAT Trend Warning', desc: 'If satisfaction scores have declined over the last three interactions, the rep sees it as a flag before they walk in.' },
+                  { icon: DollarSign, title: 'Commercial Context', desc: 'Overdue invoices, pending SORs, and last payment date — all visible alongside the ticket history.' },
                 ].map((f, i) => (
                   <div key={i} className="csci-feat-item">
-                    <div className="csci-fi-icon">{f.icon}</div>
+                    <div className="csci-fi-icon">
+                      <f.icon size={16} strokeWidth={2.5} />
+                    </div>
                     <div>
                       <div className="csci-fi-title">{f.title}</div>
                       <div className="csci-fi-desc">{f.desc}</div>
