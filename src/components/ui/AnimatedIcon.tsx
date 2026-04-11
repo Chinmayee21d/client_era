@@ -28,7 +28,7 @@ export default function AnimatedIcon({
         transition: { 
           duration: 2,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut" as const
         }
       },
       whileHover: undefined
@@ -40,7 +40,7 @@ export default function AnimatedIcon({
         transition: { 
           duration: 2,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut" as const
         }
       },
       whileHover: undefined
@@ -52,7 +52,7 @@ export default function AnimatedIcon({
         transition: { 
           duration: 3,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear" as const
         }
       },
       whileHover: undefined
@@ -64,7 +64,7 @@ export default function AnimatedIcon({
         scale: 1.15,
         transition: { 
           duration: 0.3,
-          ease: "easeOut"
+          ease: "easeOut" as const
         }
       }
     },
