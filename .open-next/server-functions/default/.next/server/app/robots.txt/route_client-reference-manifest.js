@@ -1,1 +1,0 @@
-globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/robots.txt/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"E:\\New Folder\\Antigravity Tool\\client_era\\src\\app\\robots.txt\\route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}};
