@@ -15,19 +15,8 @@ export default function LegalHeader() {
       backdropFilter: 'blur(10px)',
       background: 'rgba(11,22,40,0.85)'
     }}>
-      <Link href="/" style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        textDecoration: 'none',
-      }}>
-        <img
-          src="/logo.png"
-          alt="Client Era Logo"
-          width="120"
-          height="32"
-          style={{ objectFit: 'contain' }}
-        />
+      <Link href="/">
+        <img src="/transparent.png" alt="ClientEra Logo" style={{ height: '30px', width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
       </Link>
       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
         <Link href="/legal" style={{

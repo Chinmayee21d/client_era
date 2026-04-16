@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — The Unified Commercial OS`,
     description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
-    creator: '@clientera', 
+    creator: '@clientera',
   },
   icons: {
     icon: [

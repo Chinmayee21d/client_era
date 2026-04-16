@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 
 const COLS = [
   {
@@ -24,7 +25,9 @@ export default function Footer() {
       <div className="ce-footer-grid">
         {/* Brand */}
         <div>
-          <div className="ce-footer-logo">client<em>era</em></div>
+          <Link href="/">
+            <img src="/transparent.png" alt="ClientEra Logo" style={{ height: '30px', width: 'auto', marginBottom: '16px', display: 'block', filter: 'brightness(0) invert(1)' }} />
+          </Link>
           <p className="ce-footer-desc">
             The AI-Powered Commercial Operating System. One timeline. One truth. Zero gaps.
           </p>

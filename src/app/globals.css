@@ -317,26 +317,37 @@ a {
 }
 
 .ce-nav-logo {
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 600;
-  color: var(--text);
+  font-family: 'Geist', sans-serif;
+  font-weight: 700;
+  color: #FFFFFF;
   text-decoration: none;
+  letter-spacing: -2.4px; /* Ultra-aggressive tightening to match the image's "squashed" kerning */
+  font-variant-ligatures: none;
+  display: inline-flex;
+  align-items: baseline;
+  text-rendering: optimizeLegibility;
 }
 
 .ce-nav-logo em,
 .ce-footer-logo em {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 400;
   color: var(--gold);
+  margin-left: -3px; /* Pulling fonts together to eliminate the gap as seen in the original mark */
+  font-size: 1.08em;
+  letter-spacing: -1.2px; /* Tightening the serif part as well */
 }
 
 .ce-footer-logo {
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 600;
+  font-family: 'Geist', sans-serif;
+  font-weight: 700;
   font-size: 24px;
-  color: var(--text);
+  color: #FFFFFF;
   margin-bottom: 12px;
+  letter-spacing: -1.8px;
+  display: inline-flex;
+  align-items: baseline;
 }
 
 .nav-desktop {

@@ -82,10 +82,8 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <Link href="/" className="ce-nav-logo" style={{ 
-          fontSize: 26, letterSpacing: '-0.8px', transition: 'transform 0.3s' 
-        }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
-          client<em>era</em>
+        <Link href="/" style={{ transition: 'transform 0.3s' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
+          <img src="/transparent.png" alt="ClientEra Logo" style={{ height: '32px', width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
         </Link>
 
         {/* Desktop Navigation */}
@@ -222,7 +220,9 @@ export default function Navbar() {
         display: 'flex', flexDirection: 'column', overflowY: 'auto'
       }}>
         <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span className="ce-nav-logo" style={{ fontSize: 24 }}>client<em>era</em></span>
+          <Link href="/" onClick={closeMenu}>
+            <img src="/transparent.png" alt="ClientEra Logo" style={{ height: '28px', width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
+          </Link>
           <button onClick={closeMenu} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer' }}><X size={24} /></button>
         </div>
 
