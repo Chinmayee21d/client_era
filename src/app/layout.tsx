@@ -61,10 +61,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/ico.png', type: 'image/png' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/ico.png',
+    apple: [
+      { url: '/ico.png', sizes: 'any', type: 'image/png' },
+    ],
   },
   robots: {
     index: true,
@@ -95,10 +98,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" href="/ico.png" type="image/png" />
+        <link rel="shortcut icon" href="/ico.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/ico.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              'url': SITE_URL,
+              'logo': `${SITE_URL}/ico.png`,
+              'name': SITE_NAME,
+            }),
+          }}
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
