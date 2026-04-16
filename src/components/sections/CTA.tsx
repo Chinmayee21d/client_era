@@ -1,10 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 export default function CTABanner() {
+  const { logCTA } = useAnalytics('CTA Banner')
+
   return (
-    <section className="ce-cta-outer" id="cta">
+    <section className="ce-cta-outer" id="cta" data-section="CTA Banner">
       <div className="ce-cta-card">
         <div className="ce-cta-glow" />
         <div className="ce-cta-left">
@@ -17,14 +20,21 @@ export default function CTABanner() {
           </p>
         </div>
         <div className="ce-cta-right">
-          <Link 
+          <Link
             href="/enquiry"
             className="ce-cta-btn ce-cta-btn-primary"
             style={{ textDecoration: 'none' }}
+            onClick={() => logCTA('Book a Live Demo', 'CTA Banner')}
           >
             Book a Live Demo →
           </Link>
-          <a href="#solution" className="ce-cta-btn ce-cta-btn-ghost">Explore the Platform</a>
+          <a
+            href="#solution"
+            className="ce-cta-btn ce-cta-btn-ghost"
+            onClick={() => logCTA('Explore the Platform', 'CTA Banner')}
+          >
+            Explore the Platform
+          </a>
           <p className="ce-cta-micro">No credit card required · SOC2 compliant</p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 import Navbar   from '@/components/sections/Nav'
 import Footer   from '@/components/sections/Footer'
 import ScrollReveal from '@/components/providers/ScrollReveal'
@@ -18,8 +19,9 @@ import LM_Analytics     from '@/components/leadmanagement/v2/LM_Analytics'
 import LM_CTA           from '@/components/leadmanagement/v2/LM_CTA'
 
 export const metadata: Metadata = {
-  title: 'ClientEra | Lead Management & Prospecting',
-  description: 'Streamline your commercial relationship from the first conversation. Automated lead capture, enrichment, and qualification powered by ClientEra AI.',
+  title: 'Lead Management & Prospecting',
+  description: 'Automate your entire prospecting funnel. Capture, enrich, and qualify leads with ClientEra AI to ensure your sales team hits the ground running.',
+  alternates: { canonical: `${SITE_URL}/lead-management` },
 }
 
 export default function LeadManagementPage() {

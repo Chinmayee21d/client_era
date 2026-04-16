@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Loader2, Mail, Building2, User, Send, ArrowRight, ShieldCheck, ChevronLeft, Briefcase, Globe, Landmark } from 'lucide-react';
+import { X, CheckCircle2, Loader2, Mail, Building2, User, ArrowRight, ShieldCheck, ChevronLeft, Globe } from 'lucide-react';
 import { initiateEnquiry, verifyAndSubmitEnquiry } from '@/app/actions/enquiry';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 type Step = 'selection' | 'form' | 'verify' | 'success';
 type Role = 'business' | 'enterprise' | 'ca';
@@ -13,6 +14,8 @@ export default function EnquiryModal() {
   const [step, setStep] = useState<Step>('form');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const formTouched = useRef(false);
+  const { logFormStart, logFormSubmit, logFormError, logCTA } = useAnalytics('Enquiry Modal');
   
   // Verification State
   const [pendingToken, setPendingToken] = useState<string | null>(null);
@@ -38,10 +41,13 @@ export default function EnquiryModal() {
       setStep('form');
       setError(null);
       setOtpDigits(['', '', '', '', '', '']);
+      formTouched.current = false;
+      // Track that the enquiry modal was opened
+      logCTA('Open Enquiry Modal', 'Enquiry Modal');
     };
     window.addEventListener('open-enquiry-modal', handleOpen);
     return () => window.removeEventListener('open-enquiry-modal', handleOpen);
-  }, []);
+  }, [logCTA]);
 
 
 
@@ -61,6 +67,9 @@ export default function EnquiryModal() {
       message: (formData.get('message') as string) || 'Interested in a demo.',
     };
 
+    // Track form submission attempt
+    logFormSubmit('demo_request', false);
+
     const result = await initiateEnquiry(data);
 
     setIsSubmitting(false);
@@ -69,6 +78,7 @@ export default function EnquiryModal() {
       setStep('verify');
     } else {
       setError(result.error || 'Failed to send verification code.');
+      logFormError('demo_request', 'submission_failed');
     }
   };
 
@@ -96,6 +106,7 @@ export default function EnquiryModal() {
     const otp = otpDigits.join('');
     if (otp.length !== 6) {
       setError('Please enter the full 6-digit code.');
+      logFormError('demo_request', 'otp_incomplete');
       return;
     }
 
@@ -107,8 +118,11 @@ export default function EnquiryModal() {
     setIsSubmitting(false);
     if (result.ok) {
       setStep('success');
+      // 🎯 This is the most important event — full form completion
+      logFormSubmit('demo_request', true);
     } else {
       setError(result.error || 'Invalid or expired code.');
+      logFormError('demo_request', 'otp_invalid');
     }
   };
 
@@ -208,7 +222,16 @@ export default function EnquiryModal() {
                         <h3 className="h3" style={{ marginBottom: '8px', fontSize: '24px' }}>Join the <span style={{ color: 'var(--gold)' }}>Intelligence Era</span></h3>
                         <p style={{ color: 'var(--text2)', fontSize: '14px', marginBottom: '24px' }}>Complete your details to request a personalized walk-through.</p>
                         
-                        <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <form
+                          onSubmit={handleFormSubmit}
+                          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+                          onFocus={() => {
+                            if (!formTouched.current) {
+                              formTouched.current = true;
+                              logFormStart('demo_request');
+                            }
+                          }}
+                        >
                           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                             <InputField label="Full Name" name="name" icon={<User size={16} />} placeholder="Your full name" required />
                             <InputField label="Company" name="company" icon={<Building2 size={16} />} placeholder="Company name" required />

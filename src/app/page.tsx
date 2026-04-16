@@ -7,8 +7,8 @@ import Problem        from '@/components/sections/Problem';
 import Solution       from '@/components/sections/Solution';
 import Personas       from '@/components/sections/Personas';
 import AILayer        from '@/components/sections/Ailsyer';
-import AiCapabilities   from '@/components/sections/AiCapabilities';
-import Fulfillment     from '@/components/sections/Fulfillment';
+import AiCapabilities from '@/components/sections/AiCapabilities';
+import Fulfillment    from '@/components/sections/Fulfillment';
 import KPIEngine      from '@/components/sections/KPIEngine';
 import Comparison     from '@/components/sections/Comparison';
 import Services       from '@/components/sections/Services';
@@ -16,6 +16,7 @@ import Compliance     from '@/components/sections/Compliance';
 import Pricing        from '@/components/sections/Pricing';
 import CTA            from '@/components/sections/CTA';
 import Footer         from '@/components/sections/Footer';
+import SectionTracker from '@/components/analytics/SectionTracker';
 
 export default function Home() {
   /* scroll-reveal observer */
@@ -39,23 +40,65 @@ export default function Home() {
     <>
       <Nav />
       <main>
-        <Hero />
+        {/* Hero — first impression, no threshold needed */}
+        <SectionTracker name="Hero" threshold={0.1}>
+          <Hero />
+        </SectionTracker>
+
         <div id="solution">
-          <Problem />
-          <Solution />
-          <Personas />
-          <AILayer />
-          <AiCapabilities />
-          <Fulfillment />
-          <KPIEngine />
-          <Comparison />
-          <Services />
-          <Compliance />
-          <Pricing />
-          <CTA />
+          <SectionTracker name="Problem">
+            <Problem />
+          </SectionTracker>
+
+          <SectionTracker name="Solution">
+            <Solution />
+          </SectionTracker>
+
+          <SectionTracker name="Personas">
+            <Personas />
+          </SectionTracker>
+
+          <SectionTracker name="AI Layer">
+            <AILayer />
+          </SectionTracker>
+
+          <SectionTracker name="AI Capabilities">
+            <AiCapabilities />
+          </SectionTracker>
+
+          <SectionTracker name="Fulfillment">
+            <Fulfillment />
+          </SectionTracker>
+
+          <SectionTracker name="KPI Engine">
+            <KPIEngine />
+          </SectionTracker>
+
+          <SectionTracker name="Comparison">
+            <Comparison />
+          </SectionTracker>
+
+          <SectionTracker name="Services">
+            <Services />
+          </SectionTracker>
+
+          <SectionTracker name="Compliance">
+            <Compliance />
+          </SectionTracker>
+
+          {/* Pricing — high-intent section, track carefully */}
+          <SectionTracker name="Pricing" threshold={0.3}>
+            <Pricing />
+          </SectionTracker>
+
+          <SectionTracker name="CTA Banner" threshold={0.3}>
+            <CTA />
+          </SectionTracker>
         </div>
       </main>
-      <Footer />
+      <SectionTracker name="Footer" threshold={0.2}>
+        <Footer />
+      </SectionTracker>
     </>
   );
 }

@@ -1,14 +1,14 @@
 import Nav from '@/components/sections/Nav'
 import FAQ from '@/components/sections/FAQ'
 import type { Metadata } from 'next'
-import { getSiteUrl } from '@/lib/site'
+import { SITE_URL } from '@/lib/site'
 
 import Footer from '@/components/sections/Footer'
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions | Client Era',
-  description: 'Answers to common questions about Client Era, our B2B distributor platform, implementation, and features.',
-  alternates: { canonical: `${getSiteUrl()}/faq` },
+  title: 'Frequently Asked Questions',
+  description: 'Answers to common questions about ClientEra, our B2B distributor platform, implementation, and features.',
+  alternates: { canonical: `${SITE_URL}/faq` },
 }
 
 export default function FAQPage() {

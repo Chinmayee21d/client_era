@@ -795,7 +795,7 @@ export default function SM_Dashboard() {
             <div className={`sm-db-sidebar-v2 ${sidebarOpen ? 'open' : ''}`}>
               <div className="sm-db-sidebar-logo">
                 <div className="sm-db-sf-badge">SF</div>
-                <span className="sm-db-sidebar-brand">CLIENTERA</span>
+                <span className="ce-nav-logo" style={{ fontSize: 18 }}>client<em>era</em></span>
               </div>
 
               <div className="sm-db-sidebar-nav">

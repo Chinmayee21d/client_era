@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 import Navbar from '@/components/sections/Nav'
 import Footer from '@/components/sections/Footer'
 import ScrollReveal from '@/components/providers/ScrollReveal'
@@ -20,8 +21,9 @@ import SM_BoardMode from '@/components/salesmanagement/v2/SM_BoardMode'
 import SM_CTA from '@/components/salesmanagement/v2/SM_CTA'
 
 export const metadata: Metadata = {
-  title: 'ClientEra | Sales Performance Management',
-  description: 'Master your commercial relationship with AI-powered sales performance management. Real-time dashboards, hierarchy visibility, and automated coaching.',
+  title: 'Sales Performance & Engagement',
+  description: 'Master your commercial relationship with AI-powered sales management. Real-time dashboards, hierarchy visibility, and automated coaching for your entire sales team.',
+  alternates: { canonical: `${SITE_URL}/sales-and-engagement` },
 }
 
 export default function SalesManagementPage() {

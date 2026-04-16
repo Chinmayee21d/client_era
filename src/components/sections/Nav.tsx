@@ -85,7 +85,7 @@ export default function Navbar() {
         <Link href="/" className="ce-nav-logo" style={{ 
           fontSize: 26, letterSpacing: '-0.8px', transition: 'transform 0.3s' 
         }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
-          client<em style={{ color: 'var(--gold)', fontStyle: 'italic', fontWeight: 300 }}>era</em>
+          client<em>era</em>
         </Link>
 
         {/* Desktop Navigation */}

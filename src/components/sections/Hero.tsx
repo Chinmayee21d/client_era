@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function Hero() {
   return (
-    <section className="ce-hero">
+    <section className="ce-hero" data-section="Hero">
       {/* Background canvas */}
       <div className="ce-hero-canvas">
         <div className="ce-hero-bg" />

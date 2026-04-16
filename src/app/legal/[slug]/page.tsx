@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getSiteUrl } from '@/lib/site'
+import { SITE_NAME, SITE_URL } from '@/lib/site'
 import { getLegalDocHtml, LEGAL_DOCS } from '@/lib/legal-docs'
 import LegalHeader from '@/components/sections/LegalHeader'
 import Footer from '@/components/sections/Footer'
@@ -24,20 +24,18 @@ export async function generateMetadata({
     return {}
   }
 
-  const siteUrl = getSiteUrl()
-  const pageUrl = `${siteUrl}/legal/${def.slug}`
+  const pageUrl = `${SITE_URL}/legal/${def.slug}`
 
   return {
-    title: `${def.title} | Client Era`,
+    title: def.title,
     description: def.description,
     alternates: { canonical: pageUrl },
     openGraph: {
-      title: `${def.title} | Client Era`,
+      title: `${def.title} | ${SITE_NAME}`,
       description: def.description,
       url: pageUrl,
       type: 'article',
     },
-    robots: { index: true, follow: true },
   }
 }
 

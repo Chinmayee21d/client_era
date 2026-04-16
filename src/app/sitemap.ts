@@ -1,44 +1,22 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.clientera'
+  const routes = [
+    '',
+    '/lead-management',
+    '/order-to-cash',
+    '/sales-and-engagement',
+    '/customer-excellence',
+    '/faq',
+    '/legal',
+    '/enquiry',
+  ].map((route) => ({
+    url: `${SITE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: route === '' ? 1 : 0.8,
+  }))
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/enquiry`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/lead-management`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/order-to-cash`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/sales-and-engagement`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/customer-excellence`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-  ]
+  return routes
 }

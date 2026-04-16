@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 import Navbar from '@/components/sections/Nav'
 import Footer from '@/components/sections/Footer'
 import ScrollReveal from '@/components/providers/ScrollReveal'
@@ -14,8 +15,9 @@ import S8_Reports from '@/components/salesops/sections/S8_Reports'
 import S9_CTA from '@/components/salesops/sections/S9_CTA'
 
 export const metadata: Metadata = {
-  title: 'ClientEra | Sales Operations & Enablement',
-  description: 'Optimize your commercial relationship with advanced sales operations. Intelligent workflows, real-time reporting, and seamless enablement tools.',
+  title: 'Order to Cash & Sales Operations',
+  description: 'Automate your commercial workflow from quote to cash. Intelligent approvals, real-time reporting, and seamless sales enablement tools powered by ClientEra.',
+  alternates: { canonical: `${SITE_URL}/order-to-cash` },
 }
 
 export default function SalesOpsPage() {

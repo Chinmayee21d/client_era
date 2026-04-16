@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 import Navbar from '@/components/sections/Nav'
 import Footer from '@/components/sections/Footer'
 import ScrollReveal from '@/components/providers/ScrollReveal'
@@ -16,8 +17,9 @@ import S9_Personas from '@/components/customersupport/sections/S9_Personas'
 import S11_CTA from '@/components/customersupport/sections/S11_CTA'
 
 export const metadata: Metadata = {
-  title: 'ClientEra | Unified Customer Support',
-  description: 'Deepen your commercial relationship with AI-powered customer support. Context-aware ticketing, sentiment analysis, and seamless handoffs.',
+  title: 'Customer Excellence & Support',
+  description: 'Deepen your commercial relationship with AI-powered customer support. Context-aware ticketing, sentiment analysis, and seamless handoffs to keep your clients satisfied.',
+  alternates: { canonical: `${SITE_URL}/customer-excellence` },
 }
 
 export default function CustomerSupportPage() {

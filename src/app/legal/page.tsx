@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-import { getSiteUrl } from '@/lib/site'
+import { SITE_NAME, SITE_URL } from '@/lib/site'
 import { LEGAL_DOCS } from '@/lib/legal-docs'
 import LegalHeader from '@/components/sections/LegalHeader'
 
-const siteUrl = getSiteUrl()
 
 const orderedDocs = [
   LEGAL_DOCS.privacy,
@@ -12,16 +11,15 @@ const orderedDocs = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Legal Center | Client Era',
-  description: 'Master legal index for Client Era policies, notices, and compliance documents.',
-  alternates: { canonical: `${siteUrl}/legal` },
+  title: 'Legal Center',
+  description: `Access ${SITE_NAME} policies, terms of service, and compliance documentation.`,
+  alternates: { canonical: `${SITE_URL}/legal` },
   openGraph: {
-    title: 'Legal Center | Client Era',
-    description: 'Master legal index for Client Era policies, notices, and compliance documents.',
-    url: `${siteUrl}/legal`,
+    title: `Legal Center | ${SITE_NAME}`,
+    description: `Access ${SITE_NAME} policies, terms of service, and compliance documentation.`,
+    url: `${SITE_URL}/legal`,
     type: 'website',
   },
-  robots: { index: true, follow: true },
 }
 
 export default function LegalIndexPage() {
