@@ -61,12 +61,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/ico.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/ico.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/ico.png',
+    shortcut: [{ url: '/favicon.ico' }, { url: '/ico.png' }],
     apple: [
-      { url: '/ico.png', sizes: 'any', type: 'image/png' },
+      { url: '/ico.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   robots: {
@@ -98,9 +99,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/ico.png" type="image/png" />
-        <link rel="shortcut icon" href="/ico.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/ico.png" />
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/ico.png" type="image/png" sizes="192x192" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/ico.png" sizes="180x180" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
