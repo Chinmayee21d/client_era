@@ -4,6 +4,8 @@ export const SITE_DESCRIPTION = 'ClientEra is the unified Commercial Operating S
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://clientera.ai'
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-NVHJK7JJ'
 
+export const SITE_TWITTER_HANDLE = '@clientera'
+
 export function getSiteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL

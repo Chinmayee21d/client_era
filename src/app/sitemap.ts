@@ -2,21 +2,19 @@ import { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    '',
-    '/lead-management',
-    '/order-to-cash',
-    '/sales-and-engagement',
-    '/customer-excellence',
-    '/faq',
-    '/legal',
-    '/enquiry',
-  ].map((route) => ({
-    url: `${SITE_URL}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.8,
-  }))
-
-  return routes
+  return [
+    {
+      url: SITE_URL,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    // Add other routes here if they exist, e.g.:
+    // {
+    //   url: `${SITE_URL}/pricing`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'monthly',
+    //   priority: 0.8,
+    // },
+  ]
 }

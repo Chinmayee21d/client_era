@@ -13,6 +13,7 @@ import KPIEngine      from '@/components/sections/KPIEngine';
 import Comparison     from '@/components/sections/Comparison';
 import Services       from '@/components/sections/Services';
 import Compliance     from '@/components/sections/Compliance';
+import FAQ            from '@/components/sections/FAQ';
 import Pricing        from '@/components/sections/Pricing';
 import CTA            from '@/components/sections/CTA';
 import Footer         from '@/components/sections/Footer';
@@ -84,6 +85,10 @@ export default function Home() {
 
           <SectionTracker name="Compliance">
             <Compliance />
+          </SectionTracker>
+
+          <SectionTracker name="FAQ" threshold={0.2}>
+            <FAQ />
           </SectionTracker>
 
           {/* Pricing — high-intent section, track carefully */}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL, SITE_TITLE_TEMPLATE, GTM_ID } from '@/lib/site'
+import { SITE_NAME, SITE_DESCRIPTION, SITE_URL, SITE_TITLE_TEMPLATE, GTM_ID, SITE_TWITTER_HANDLE } from '@/lib/site'
 import Script from 'next/script'
 import './globals.css'
 
@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     template: SITE_TITLE_TEMPLATE,
   },
   description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  generator: 'Next.js',
   keywords: [
     'CRM',
     'sales software',
@@ -27,10 +30,12 @@ export const metadata: Metadata = {
     'lead management',
     'order to cash',
     'customer excellence',
+    'B2B sales automation',
+    'supply chain sales',
   ],
-  authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  category: 'technology',
   formatDetection: {
     email: false,
     address: false,
@@ -57,7 +62,7 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — The Unified Commercial OS`,
     description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
-    creator: '@clientera',
+    creator: SITE_TWITTER_HANDLE,
   },
   icons: {
     icon: [
@@ -97,23 +102,42 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      'url': SITE_URL,
+      'logo': `${SITE_URL}/ico.png`,
+      'name': SITE_NAME,
+      'description': SITE_DESCRIPTION,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      'name': SITE_NAME,
+      'operatingSystem': 'Web',
+      'applicationCategory': 'BusinessApplication',
+      'description': SITE_DESCRIPTION,
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD',
+      },
+    }
+  ]
+
   return (
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              'url': SITE_URL,
-              'logo': `${SITE_URL}/ico.png`,
-              'name': SITE_NAME,
-            }),
-          }}
-        />
+        {jsonLd.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
         <link
           href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
