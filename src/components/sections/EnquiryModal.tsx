@@ -11,6 +11,7 @@ type Role = 'business' | 'enterprise' | 'ca';
 
 export default function EnquiryModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const wasOpen = useRef(false);
   const [step, setStep] = useState<Step>('form');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,10 +28,14 @@ export default function EnquiryModal() {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      wasOpen.current = true;
     } else {
       document.body.style.overflow = '';
-      // Dispatch close event for enquiry page
-      window.dispatchEvent(new Event('enquiry-modal-closed'));
+      // Only dispatch close event if it was actually open before
+      if (wasOpen.current) {
+        window.dispatchEvent(new Event('enquiry-modal-closed'));
+        wasOpen.current = false;
+      }
     }
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
