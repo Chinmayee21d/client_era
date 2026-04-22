@@ -87,9 +87,10 @@ export const metadata: Metadata = {
   },
 }
 
+import { Suspense } from 'react'
 import CookieConsentBanner from '@/components/compliance/CookieConsentBanner'
 import EnquiryModal from '@/components/sections/EnquiryModal'
-// import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 export default function RootLayout({
   children,
@@ -128,11 +129,12 @@ export default function RootLayout({
           />
         </noscript>
         {children}
+        <EnquiryModal />
         <CookieConsentBanner />
-        {/* <EnquiryModal />
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ? (
-          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        ) : null} */}
+        {/* GoogleAnalytics needs Suspense because it uses usePathname() */}
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <Script
           id="gtm-script"
           strategy="afterInteractive"

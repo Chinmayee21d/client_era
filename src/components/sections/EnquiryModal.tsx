@@ -35,6 +35,19 @@ export default function EnquiryModal() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  // Auto-open when navigated directly to /enquiry (avoids race condition with event dispatch)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.pathname === '/enquiry') {
+      setIsOpen(true);
+      setStep('form');
+      setError(null);
+      setOtpDigits(['', '', '', '', '', '']);
+      formTouched.current = false;
+      logCTA('Open Enquiry Modal', 'Enquiry Modal - Direct Route');
+    }
+  }, [logCTA]);
+
+  // Also support programmatic open via event (e.g. from CTAs on other pages)
   useEffect(() => {
     const handleOpen = () => {
       setIsOpen(true);
@@ -42,7 +55,6 @@ export default function EnquiryModal() {
       setError(null);
       setOtpDigits(['', '', '', '', '', '']);
       formTouched.current = false;
-      // Track that the enquiry modal was opened
       logCTA('Open Enquiry Modal', 'Enquiry Modal');
     };
     window.addEventListener('open-enquiry-modal', handleOpen);

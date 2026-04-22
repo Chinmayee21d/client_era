@@ -7,34 +7,30 @@ export default function EnquiryPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Set page title
     document.title = 'Book a Demo | ClientEra'
-    
-    // Open the enquiry modal when this page loads
-    window.dispatchEvent(new Event('open-enquiry-modal'))
-    
-    // Listen for modal close to navigate back
+
+    // EnquiryModal auto-opens when it detects pathname === '/enquiry'.
+    // We only need to listen for the close event to navigate back.
     const handleModalClose = () => {
       router.back()
     }
-    
-    // We'll need to add a custom event for modal close
+
     window.addEventListener('enquiry-modal-closed', handleModalClose)
-    
+
     return () => {
       window.removeEventListener('enquiry-modal-closed', handleModalClose)
     }
   }, [router])
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       background: 'var(--ink)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      {/* Modal will be rendered by the global EnquiryModal component */}
+      {/* EnquiryModal (global in layout) auto-opens on this route */}
     </div>
   )
 }

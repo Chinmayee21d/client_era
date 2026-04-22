@@ -1,284 +1,251 @@
-// 'use client'
+'use client'
 
-// import Script from 'next/script'
-// import { usePathname } from 'next/navigation'
-// import { useEffect, useRef, useState } from 'react'
-// import {
-//   trackScrollDepth,
-//   trackTimeOnPage,
-//   trackClick,
-//   trackOutboundLink,
-//   trackPageView,
-// } from '@/lib/analytics'
+import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import {
+  trackScrollDepth,
+  trackTimeOnPage,
+  trackClick,
+  trackOutboundLink,
+  trackPageView,
+  trackEvent,
+} from '@/lib/analytics'
 
-// // ─── Consent ─────────────────────────────────────────────────────────────────
+// ─── Constants ────────────────────────────────────────────────────────────────
 
-// const CONSENT_VERSION = '2026-03-01'
-// const STORAGE_KEY = `ce_cookie_consent_${CONSENT_VERSION}`
+/** Scroll milestones in % */
+const SCROLL_MILESTONES = [25, 50, 75, 90, 100]
 
-// type ConsentState = {
-//   necessary: true
-//   analytics: boolean
-//   marketing: boolean
-//   timestamp: string
-//   version: string
-//   dnt: boolean
-// }
+/** Time-on-page milestones in seconds */
+const TIME_MILESTONES = [15, 30, 60, 120, 300]
 
-// function getConsentFromStorage(): ConsentState | null {
-//   try {
-//     const raw = localStorage.getItem(STORAGE_KEY)
-//     if (!raw) return null
-//     return JSON.parse(raw) as ConsentState
-//   } catch {
-//     return null
-//   }
-// }
+// ─── Consent ──────────────────────────────────────────────────────────────────
 
-// // ─── Milestones ──────────────────────────────────────────────────────────────
+const CONSENT_VERSION = '2026-03-01'
+const STORAGE_KEY = `ce_cookie_consent_${CONSENT_VERSION}`
 
-// /** Scroll milestones in % */
-// const SCROLL_MILESTONES = [25, 50, 75, 90, 100]
+type ConsentState = {
+  necessary: true
+  analytics: boolean
+  marketing: boolean
+  timestamp: string
+  version: string
+  dnt: boolean
+}
 
-// /** Time-on-page milestones in seconds */
-// const TIME_MILESTONES = [15, 30, 60, 120, 300]
+function getConsentFromStorage(): ConsentState | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    return JSON.parse(raw) as ConsentState
+  } catch {
+    return null
+  }
+}
 
-// // ─── Component ───────────────────────────────────────────────────────────────
+// ─── Component ────────────────────────────────────────────────────────────────
 
-// export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
-//   const [analyticsEnabled, setAnalyticsEnabled] = useState(false)
-//   const pathname = usePathname()
+export default function GoogleAnalytics() {
+  const [analyticsEnabled, setAnalyticsEnabled] = useState(false)
+  const pathname = usePathname()
 
-//   const scrollMilestones = useRef(new Set<number>())
-//   const timeMilestones = useRef(new Set<number>())
-//   const pageStart = useRef(Date.now())
-//   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const scrollMilestones = useRef(new Set<number>())
+  const timeMilestones   = useRef(new Set<number>())
+  const pageStart        = useRef(Date.now())
+  const timerRef         = useRef<ReturnType<typeof setInterval> | null>(null)
 
-//   // ── Check & listen for consent ────────────────────────────────────────────
-//   useEffect(() => {
-//     const consent = getConsentFromStorage()
-//     if (consent?.analytics) setAnalyticsEnabled(true)
+  // ── Check & listen for consent ────────────────────────────────────────────
+  useEffect(() => {
+    const consent = getConsentFromStorage()
+    if (consent?.analytics) setAnalyticsEnabled(true)
 
-//     function onStorage(e: StorageEvent) {
-//       if (e.key !== STORAGE_KEY || !e.newValue) return
-//       try {
-//         const updated = JSON.parse(e.newValue) as ConsentState
-//         setAnalyticsEnabled(!!updated.analytics)
-//       } catch { /* ignore */ }
-//     }
+    function onStorage(e: StorageEvent) {
+      if (e.key !== STORAGE_KEY || !e.newValue) return
+      try {
+        const updated = JSON.parse(e.newValue) as ConsentState
+        setAnalyticsEnabled(!!updated.analytics)
+      } catch { /* ignore */ }
+    }
 
-//     window.addEventListener('storage', onStorage)
-//     return () => window.removeEventListener('storage', onStorage)
-//   }, [])
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
 
-//   // ── Reset milestones on route change & fire page_view ─────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
-//     scrollMilestones.current.clear()
-//     timeMilestones.current.clear()
-//     pageStart.current = Date.now()
-//     trackPageView(pathname, document.title)
-//   }, [analyticsEnabled, pathname])
+  // ── Reset milestones on route change & fire page_view ─────────────────────
+  useEffect(() => {
+    if (!analyticsEnabled) return
+    scrollMilestones.current.clear()
+    timeMilestones.current.clear()
+    pageStart.current = Date.now()
+    trackPageView(pathname, document.title)
+  }, [analyticsEnabled, pathname])
 
-//   // ── Scroll depth tracking ─────────────────────────────────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
+  // ── Traffic source / referrer tracking (once per session) ─────────────────
+  useEffect(() => {
+    if (!analyticsEnabled) return
+    // Only run once per session
+    if (sessionStorage.getItem('ce_source_tracked')) return
+    sessionStorage.setItem('ce_source_tracked', '1')
 
-//     function onScroll() {
-//       const scrolled = window.scrollY + window.innerHeight
-//       const total = document.documentElement.scrollHeight
-//       if (total <= 0) return
-//       const pct = Math.round((scrolled / total) * 100)
+    const referrer = document.referrer
+    const params   = new URLSearchParams(window.location.search)
 
-//       for (const milestone of SCROLL_MILESTONES) {
-//         if (pct >= milestone && !scrollMilestones.current.has(milestone)) {
-//           scrollMilestones.current.add(milestone)
-//           trackScrollDepth(milestone)
-//         }
-//       }
-//     }
+    let source  = 'direct'
+    let medium  = 'none'
+    let campaign = params.get('utm_campaign') || '(not set)'
 
-//     window.addEventListener('scroll', onScroll, { passive: true })
-//     return () => window.removeEventListener('scroll', onScroll)
-//   }, [analyticsEnabled])
+    // UTM overrides everything
+    if (params.get('utm_source')) {
+      source   = params.get('utm_source')!
+      medium   = params.get('utm_medium') || 'none'
+      campaign = params.get('utm_campaign') || '(not set)'
+    } else if (referrer) {
+      try {
+        const refHost = new URL(referrer).hostname
+        if (/google\.|bing\.|yahoo\.|duckduckgo\./.test(refHost)) {
+          source = refHost.replace('www.', '')
+          medium = 'organic'
+        } else if (/linkedin\.com/.test(refHost)) {
+          source = 'linkedin'
+          medium = 'social'
+        } else if (/twitter\.com|x\.com/.test(refHost)) {
+          source = 'twitter'
+          medium = 'social'
+        } else if (/facebook\.com|fb\./.test(refHost)) {
+          source = 'facebook'
+          medium = 'social'
+        } else {
+          source = refHost
+          medium = 'referral'
+        }
+      } catch { /* ignore malformed referrer */ }
+    }
 
-//   // ── Time on page tracking ─────────────────────────────────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
+    // Push to dataLayer so GTM can use these values in goals/audiences
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event:           'session_source_identified',
+      traffic_source:  source,
+      traffic_medium:  medium,
+      traffic_campaign: campaign,
+      page_referrer:   referrer || '(direct)',
+    })
 
-//     if (timerRef.current) clearInterval(timerRef.current)
+    trackEvent('session_source', {
+      traffic_source:   source,
+      traffic_medium:   medium,
+      traffic_campaign: campaign,
+      page_referrer:    referrer || '(direct)',
+    })
+  }, [analyticsEnabled])
 
-//     timerRef.current = setInterval(() => {
-//       const elapsed = Math.floor((Date.now() - pageStart.current) / 1000)
-//       for (const milestone of TIME_MILESTONES) {
-//         if (elapsed >= milestone && !timeMilestones.current.has(milestone)) {
-//           timeMilestones.current.add(milestone)
-//           trackTimeOnPage(milestone)
-//         }
-//       }
-//     }, 5_000)
+  // ── Scroll depth tracking ─────────────────────────────────────────────────
+  useEffect(() => {
+    if (!analyticsEnabled) return
 
-//     return () => {
-//       if (timerRef.current) clearInterval(timerRef.current)
-//     }
-//   }, [analyticsEnabled, pathname])
+    function onScroll() {
+      const scrolled = window.scrollY + window.innerHeight
+      const total    = document.documentElement.scrollHeight
+      if (total <= 0) return
+      const pct = Math.round((scrolled / total) * 100)
 
-//   // ── IP and Source tracking ───────────────────────────────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
+      for (const milestone of SCROLL_MILESTONES) {
+        if (pct >= milestone && !scrollMilestones.current.has(milestone)) {
+          scrollMilestones.current.add(milestone)
+          trackScrollDepth(milestone)
+        }
+      }
+    }
 
-//     async function fetchUserContext() {
-//       try {
-//         const response = await fetch('https://ipapi.co/json/')
-//         const data = await response.json()
-        
-//         // Push to dataLayer for GTM use
-//         window.dataLayer = window.dataLayer || []
-//         window.dataLayer.push({
-//           event: 'user_context_ready',
-//           user_ip: data.ip,
-//           user_city: data.city,
-//           user_country: data.country_name,
-//           user_provider: data.org,
-//           referrer: document.referrer || 'direct'
-//         })
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [analyticsEnabled, pathname])
 
-//         // Also track as a one-time event
-//         trackEvent('session_context', {
-//           ip_address: data.ip,
-//           location: `${data.city}, ${data.country_name}`,
-//           referrer: document.referrer || 'direct'
-//         })
-//       } catch (err) {
-//         console.error('Failed to fetch user context:', err)
-//       }
-//     }
+  // ── Time on page tracking ─────────────────────────────────────────────────
+  useEffect(() => {
+    if (!analyticsEnabled) return
 
-//     fetchUserContext()
-//   }, [analyticsEnabled])
+    if (timerRef.current) clearInterval(timerRef.current)
 
-//   // ── Section Dwell Time tracking ───────────────────────────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
+    timerRef.current = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - pageStart.current) / 1000)
+      for (const milestone of TIME_MILESTONES) {
+        if (elapsed >= milestone && !timeMilestones.current.has(milestone)) {
+          timeMilestones.current.add(milestone)
+          trackTimeOnPage(milestone)
+        }
+      }
+    }, 5_000)
 
-//     const sectionTimers = new Map<string, number>()
-    
-//     const observer = new IntersectionObserver(
-//       (entries) => {
-//         entries.forEach((entry) => {
-//           const sectionName = (entry.target as HTMLElement).dataset.section
-//           if (!sectionName) return
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [analyticsEnabled, pathname])
 
-//           if (entry.isIntersecting) {
-//             // Started viewing
-//             sectionTimers.set(sectionName, Date.now())
-//           } else {
-//             // Stopped viewing
-//             const startTime = sectionTimers.get(sectionName)
-//             if (startTime) {
-//               const secondsSpent = Math.floor((Date.now() - startTime) / 1000)
-//               if (secondsSpent >= 2) { // Only track if they stayed for at least 2s
-//                 trackSectionEngagement(sectionName, secondsSpent)
-//               }
-//               sectionTimers.delete(sectionName)
-//             }
-//           }
-//         })
-//       },
-//       { threshold: 0.5 } // Must see 50% of the section
-//     )
+  // ── Global click tracking ─────────────────────────────────────────────────
+  useEffect(() => {
+    if (!analyticsEnabled) return
 
-//     // Observe all elements with data-section
-//     const sections = document.querySelectorAll('[data-section]')
-//     sections.forEach((s) => observer.observe(s))
+    function onGlobalClick(e: MouseEvent) {
+      const target = e.target as HTMLElement
+      if (!target) return
 
-//     return () => observer.disconnect()
-//   }, [analyticsEnabled, pathname])
+      // Walk up the DOM to find the nearest interactive element
+      const el = target.closest(
+        'a, button, [data-track], [role="button"], input[type="submit"]'
+      ) as HTMLElement | null
 
-//   // ── Global click tracking ─────────────────────────────────────────────────
-//   useEffect(() => {
-//     if (!analyticsEnabled) return
+      // Track raw clicks that miss interactive elements (rage-click / misclick heatmap)
+      if (!el) {
+        const section = (
+          target.closest('[data-section]') as HTMLElement | null
+        )?.dataset.section ?? 'unknown'
 
-//     function onGlobalClick(e: MouseEvent) {
-//       const target = e.target as HTMLElement
-//       if (!target) return
+        trackEvent('raw_click', {
+          click_x:      Math.round(e.clientX),
+          click_y:      Math.round(e.clientY),
+          viewport_w:   window.innerWidth,
+          viewport_h:   window.innerHeight,
+          element_tag:  target.tagName.toLowerCase(),
+          section_name: section,
+        })
+        return
+      }
 
-//       // Walk up the DOM to find the nearest trackable element
-//       const el = target.closest(
-//         'a, button, [data-track], [role="button"]'
-//       ) as HTMLElement | null
-      
-//       // If we didn't hit a button/link, let's still track WHERE the click happened
-//       // to find "interaction hotspots"
-//       if (!el) {
-//         trackEvent('missed_click', {
-//           click_x: e.clientX,
-//           click_y: e.clientY,
-//           viewport_w: window.innerWidth,
-//           viewport_h: window.innerHeight,
-//           element_tag: target.tagName.toLowerCase()
-//         })
-//         return
-//       }
+      // Find the nearest data-section ancestor
+      const sectionEl  = el.closest('[data-section]') as HTMLElement | null
+      const section    = sectionEl?.dataset.section ?? 'unknown'
 
-//       // Read section name from the nearest [data-section] ancestor
-//       const sectionEl = el.closest('[data-section]') as HTMLElement | null
-//       const section = sectionEl?.dataset.section ?? 'unknown'
+      // Best label: aria-label → data-label → visible text
+      const label =
+        el.getAttribute('aria-label') ??
+        el.getAttribute('data-label') ??
+        el.textContent?.trim().slice(0, 80) ??
+        'unknown'
 
-//       // Best label: aria-label → data-label → visible text
-//       const label =
-//         el.getAttribute('aria-label') ??
-//         el.getAttribute('data-label') ??
-//         el.textContent?.trim().slice(0, 80) ??
-//         'unknown'
+      const tag = el.tagName.toLowerCase()
 
-//       const tag = el.tagName.toLowerCase()
+      // Outbound link?
+      if (tag === 'a') {
+        const href       = (el as HTMLAnchorElement).href
+        const isExternal =
+          href &&
+          !href.startsWith(window.location.origin) &&
+          !href.startsWith('/') &&
+          !href.startsWith('#')
+        if (isExternal) {
+          trackOutboundLink(href, label)
+          return
+        }
+      }
 
-//       // Outbound link?
-//       if (tag === 'a') {
-//         const href = (el as HTMLAnchorElement).href
-//         const isExternal =
-//           href &&
-//           !href.startsWith(window.location.origin) &&
-//           !href.startsWith('/') &&
-//           !href.startsWith('#')
-//         if (isExternal) {
-//           trackOutboundLink(href, label)
-//           return
-//         }
-//       }
+      trackClick(tag, section, label)
+    }
 
-//       trackClick(tag, section, label)
-//     }
+    document.addEventListener('click', onGlobalClick)
+    return () => document.removeEventListener('click', onGlobalClick)
+  }, [analyticsEnabled])
 
-//     document.addEventListener('click', onGlobalClick)
-//     return () => document.removeEventListener('click', onGlobalClick)
-//   }, [analyticsEnabled])
-
-//   // ── Render GA4 scripts ────────────────────────────────────────────────────
-//   if (!analyticsEnabled || !GA_MEASUREMENT_ID) return null
-
-//   return (
-//     <>
-//       <Script
-//         async
-//         strategy="afterInteractive"
-//         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-//       />
-//       <Script
-//         id="google-analytics"
-//         strategy="afterInteractive"
-//         dangerouslySetInnerHTML={{
-//           __html: `
-//             window.dataLayer = window.dataLayer || [];
-//             function gtag(){dataLayer.push(arguments);}
-//             gtag('js', new Date());
-//             gtag('config', '${GA_MEASUREMENT_ID}', {
-//               send_page_view: false
-//             });
-//           `,
-//         }}
-//       />
-//     </>
-//   )
-// }
+  // This component renders nothing — it only attaches event listeners
+  return null
+}
