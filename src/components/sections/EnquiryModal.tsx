@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Loader2, Mail, Building2, User, ArrowRight, ShieldCheck, ChevronLeft, Globe } from 'lucide-react';
 import { initiateEnquiry, verifyAndSubmitEnquiry } from '@/app/actions/enquiry';
@@ -12,6 +13,7 @@ type Role = 'business' | 'enterprise' | 'ca';
 export default function EnquiryModal() {
   const [isOpen, setIsOpen] = useState(false);
   const wasOpen = useRef(false);
+  const pathname = usePathname();
   const [step, setStep] = useState<Step>('form');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,17 +42,17 @@ export default function EnquiryModal() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  // Auto-open when navigated directly to /enquiry (avoids race condition with event dispatch)
+  // Auto-open when navigated to /enquiry (reactive to route changes)
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.pathname === '/enquiry') {
+    if (pathname === '/enquiry') {
       setIsOpen(true);
       setStep('form');
       setError(null);
       setOtpDigits(['', '', '', '', '', '']);
       formTouched.current = false;
-      logCTA('Open Enquiry Modal', 'Enquiry Modal - Direct Route');
+      logCTA('Open Enquiry Modal', 'Enquiry Modal - Route Navigation');
     }
-  }, [logCTA]);
+  }, [pathname, logCTA]);
 
   // Also support programmatic open via event (e.g. from CTAs on other pages)
   useEffect(() => {
